@@ -49,7 +49,7 @@
             try {
                 // $('#lobby').load('includes/updt/lobby.php');
 
-                const response = await fetch('/api/residents');
+                const response = await fetch('./raw_residents');
                 residents = await response.json();
 
                 const select = document.getElementById('resident-filter');
