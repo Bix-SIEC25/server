@@ -79,7 +79,8 @@
 
         // Load vitals data
         async function loadVitals() {
-            $('#vitals-content').load('vitals_section.php');
+            const url = selectedDeviceId ? `vitals_section.php?devid=${selectedDeviceId}` : 'vitals_section.php';
+            $('#vitals-content').load(url);
 
             // const container = document.getElementById('vitals-content');
             // container.innerHTML = '<div class="loading">Loading...</div>';
@@ -122,7 +123,8 @@
 
         // Load fall alerts
         async function loadFalls() {
-            $('#falls-content').load('falls_section.php');
+            const url = selectedDeviceId ? `falls_section.php?devid=${selectedDeviceId}` : 'falls_section.php';
+            $('#falls-content').load(url);
 
             // const container = document.getElementById('falls-content');
             // container.innerHTML = '<div class="loading">Loading...</div>';
