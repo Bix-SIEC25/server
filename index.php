@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wristbands Dashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -46,6 +47,8 @@
         // Load residents list
         async function loadResidents() {
             try {
+                // $('#lobby').load('includes/updt/lobby.php');
+
                 const response = await fetch('/api/residents');
                 residents = await response.json();
 
@@ -76,86 +79,90 @@
 
         // Load vitals data
         async function loadVitals() {
-            const container = document.getElementById('vitals-content');
-            container.innerHTML = '<div class="loading">Loading...</div>';
+            $('#vitals-content').load('vitals_section.php');
 
-            try {
-                const url = selectedDeviceId ? `/api/vitals?device_id=${selectedDeviceId}` : '/api/vitals';
-                const response = await fetch(url);
-                const data = await response.json();
+            // const container = document.getElementById('vitals-content');
+            // container.innerHTML = '<div class="loading">Loading...</div>';
 
-                if (data.length === 0) {
-                    container.innerHTML = '<div class="no-data">No vital signs data available</div>';
-                    return;
-                }
+            // try {
+            //     const url = selectedDeviceId ? `/api/vitals?device_id=${selectedDeviceId}` : '/api/vitals';
+            //     const response = await fetch(url);
+            //     const data = await response.json();
 
-                let html = '<table><thead><tr>';
-                html += '<th>Resident</th><th>SpO2</th><th>Heart Rate</th><th>Board Temperature</th><th>Timestamp</th>';
-                html += '</tr></thead><tbody>';
+            //     if (data.length === 0) {
+            //         container.innerHTML = '<div class="no-data">No vital signs data available</div>';
+            //         return;
+            //     }
 
-                data.forEach(record => {
-                    const spo2Status = record.spo2 < 90 ? 'badge-danger' : record.spo2 < 95 ? 'badge-warning' : 'badge-success';
-                    const hrStatus = record.heart_rate < 60 || record.heart_rate > 100 ? 'badge-warning' : 'badge-success';
+            //     let html = '<table><thead><tr>';
+            //     html += '<th>Resident</th><th>SpO2</th><th>Heart Rate</th><th>Board Temperature</th><th>Timestamp</th>';
+            //     html += '</tr></thead><tbody>';
 
-                    html += '<tr>';
-                    html += `<td><strong>${record.name || 'Unknown'}</strong><span class="resident-badge">${record.device_id}</span></td>`;
-                    html += `<td><span class="badge ${spo2Status}">${record.spo2}%</span></td>`;
-                    html += `<td><span class="badge ${hrStatus}">${record.heart_rate} BPM</span></td>`;
-                    html += `<td>${record.temperature ? record.temperature + '°C' : 'N/A'}</td>`;
-                    html += `<td>${new Date(record.timestamp).toLocaleString()}</td>`;
-                    html += '</tr>';
-                });
+            //     data.forEach(record => {
+            //         const spo2Status = record.spo2 < 90 ? 'badge-danger' : record.spo2 < 95 ? 'badge-warning' : 'badge-success';
+            //         const hrStatus = record.heart_rate < 60 || record.heart_rate > 100 ? 'badge-warning' : 'badge-success';
 
-                html += '</tbody></table>';
-                container.innerHTML = html;
+            //         html += '<tr>';
+            //         html += `<td><strong>${record.name || 'Unknown'}</strong><span class="resident-badge">${record.device_id}</span></td>`;
+            //         html += `<td><span class="badge ${spo2Status}">${record.spo2}%</span></td>`;
+            //         html += `<td><span class="badge ${hrStatus}">${record.heart_rate} BPM</span></td>`;
+            //         html += `<td>${record.temperature ? record.temperature + '°C' : 'N/A'}</td>`;
+            //         html += `<td>${new Date(record.timestamp).toLocaleString()}</td>`;
+            //         html += '</tr>';
+            //     });
 
-            } catch (error) {
-                container.innerHTML = '<div class="no-data">Error loading data</div>';
-                console.error('Error:', error);
-            }
+            //     html += '</tbody></table>';
+            //     container.innerHTML = html;
+
+            // } catch (error) {
+            //     container.innerHTML = '<div class="no-data">Error loading data</div>';
+            //     console.error('Error:', error);
+            // }
         }
 
         // Load fall alerts
         async function loadFalls() {
-            const container = document.getElementById('falls-content');
-            container.innerHTML = '<div class="loading">Loading...</div>';
+            $('#falls-content').load('falls_section.php');
 
-            try {
-                const url = selectedDeviceId ? `/api/falls?device_id=${selectedDeviceId}` : '/api/falls';
-                const response = await fetch(url);
-                const data = await response.json();
+            // const container = document.getElementById('falls-content');
+            // container.innerHTML = '<div class="loading">Loading...</div>';
 
-                if (data.length === 0) {
-                    container.innerHTML = '<div class="no-data">No fall alerts</div>';
-                    return;
-                }
+            // try {
+            //     const url = selectedDeviceId ? `/api/falls?device_id=${selectedDeviceId}` : '/api/falls';
+            //     const response = await fetch(url);
+            //     const data = await response.json();
 
-                const currentTime = new Date();
-                const tenMinutesAgo = new Date(currentTime.getTime() - 10 * 60 * 1000);
+            //     if (data.length === 0) {
+            //         container.innerHTML = '<div class="no-data">No fall alerts</div>';
+            //         return;
+            //     }
 
-                let html = '<table><thead><tr>';
-                html += '<th>Resident</th><th>Jerk Magnitude</th><th>Timestamp</th>';
-                html += '</tr></thead><tbody>';
+            //     const currentTime = new Date();
+            //     const tenMinutesAgo = new Date(currentTime.getTime() - 10 * 60 * 1000);
 
-                data.forEach(record => {
-                    const severity = record.jerkmagnitude > 5 ? 'badge-danger' : record.jerkmagnitude > 3 ? 'badge-warning' : 'badge-success';
-                    const fallTime = new Date(record.timestamp);
-                    const isRecent = fallTime > tenMinutesAgo;
+            //     let html = '<table><thead><tr>';
+            //     html += '<th>Resident</th><th>Jerk Magnitude</th><th>Timestamp</th>';
+            //     html += '</tr></thead><tbody>';
 
-                    html += `<tr${isRecent ? ' class="recent-fall"' : ''}>`;
-                    html += `<td><strong>${record.name || 'Unknown'}</strong><span class="resident-badge">${record.device_id}</span></td>`;
-                    html += `<td><span class="badge ${severity}">${record.jerkmagnitude.toFixed(2)}</span></td>`;
-                    html += `<td>${new Date(record.timestamp).toLocaleString()}${isRecent ? ' 🚨' : ''}</td>`;
-                    html += '</tr>';
-                });
+            //     data.forEach(record => {
+            //         const severity = record.jerkmagnitude > 5 ? 'badge-danger' : record.jerkmagnitude > 3 ? 'badge-warning' : 'badge-success';
+            //         const fallTime = new Date(record.timestamp);
+            //         const isRecent = fallTime > tenMinutesAgo;
 
-                html += '</tbody></table>';
-                container.innerHTML = html;
+            //         html += `<tr${isRecent ? ' class="recent-fall"' : ''}>`;
+            //         html += `<td><strong>${record.name || 'Unknown'}</strong><span class="resident-badge">${record.device_id}</span></td>`;
+            //         html += `<td><span class="badge ${severity}">${record.jerkmagnitude.toFixed(2)}</span></td>`;
+            //         html += `<td>${new Date(record.timestamp).toLocaleString()}${isRecent ? ' 🚨' : ''}</td>`;
+            //         html += '</tr>';
+            //     });
 
-            } catch (error) {
-                container.innerHTML = '<div class="no-data">Error loading data</div>';
-                console.error('Error:', error);
-            }
+            //     html += '</tbody></table>';
+            //     container.innerHTML = html;
+
+            // } catch (error) {
+            //     container.innerHTML = '<div class="no-data">Error loading data</div>';
+            //     console.error('Error:', error);
+            // }
         }
 
         // Auto-refresh every 10 seconds
