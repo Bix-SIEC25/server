@@ -15,25 +15,54 @@
         include_once("../insa_db.php");
         $db = dbConnect();
 
-        $falls = [];
+        $vitalss = [];
         if (isset($_REQUEST["devid"])) {
-            $stmt = $db->prepare('SELECT * FROM fall_alerts WHERE device_id = :dev');
+            $stmt = $db->prepare('SELECT
+    v.id,
+    v.timestamp,
+    v.device_id,
+    v.spo2,
+    v.heart_rate,
+    v.temperature,
+    r.name
+FROM
+    vitals v
+JOIN
+    residents r ON v.device_id = r.device_id
+ WHERE device_id = :dev;');
             $stmt->execute(['dev' => htmlspecialchars($_REQUEST["devid"])]);
-            $falls = $stmt->fetchAll();
+            $vitalss = $stmt->fetchAll();
         } else {
-            $stmt = $db->prepare('SELECT * FROM fall_alerts');
+            $stmt = $db->prepare('SELECT
+    v.id,
+    v.timestamp,
+    v.device_id,
+    v.spo2,
+    v.heart_rate,
+    v.temperature,
+    r.name
+FROM
+    residents_vitals v
+JOIN
+    residents r ON v.device_id = r.device_id;
+');
             $stmt->execute();
-            $falls = $stmt->fetchAll();
+            $vitalss = $stmt->fetchAll();
         }
 
-        foreach ($falls as $_fall_index => $fall) {
-            ?>
+        foreach ($vitalss as $_vitals_index => $vitals) {
+        ?>
 
+            <tr>
+                <td><strong>${record.name || 'Unknown'}</strong><span class="resident-badge">${record.device_id}</span></td>
+                <td><span class="badge ${spo2Status}">${record.spo2}%</span></td>
+                <td><span class="badge ${hrStatus}">${record.heart_rate} BPM</span></td>
+                <td>${record.temperature ? record.temperature + '°C' : 'N/A'}</td>
+                <td>${new Date(record.timestamp).toLocaleString()}</td>
+            </tr>
 
-
-            <?php
+        <?php
         }
-
         ?>
 
     </tbody>
