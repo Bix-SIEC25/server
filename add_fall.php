@@ -5,7 +5,7 @@ if (!isset($_REQUEST["devid"]) || !isset($_REQUEST["mag"])) {
     exit;
 }
 
-include_once("../db_insa.php");
+include_once("../insa_db.php");
 $db = dbConnect();
 
 $sqlQuery = 'INSERT INTO fall_alerts(device_id, jerkmagnitude) VALUES (:dev, :mag)';
