@@ -54,9 +54,9 @@ JOIN
         ?>
 
             <tr <?php if ($isRecent) echo ' class="recent-fall"' ?>>
-                <td><strong>${record.name || 'Unknown'}</strong><span class="resident-badge">${record.device_id}</span></td>
-                <td><span class="badge ${severity}">${record.jerkmagnitude.toFixed(2)}</span></td>
-                <td>${new Date(record.timestamp).toLocaleString()}<?php if ($isRecent) echo ' 🚨' ?></td>
+                <td><strong><?php echo $fall['name'] ?></strong><span class="resident-badge"><? echo $fall['device_id']?></span></td>
+                <td><span class="badge <?php echo $severity?>"><?php echo $fall['jerkmagnitude']?></span></td>
+                <td><?php echo $fall['timestamp']; if ($isRecent) echo ' 🚨' ?></td>
             </tr>
         
 
