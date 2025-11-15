@@ -28,6 +28,16 @@ CREATE TABLE residents_vitals (
     temperature FLOAT
 );
 
+-- INSERT INTO `residents` (`device_id`, `name`) VALUES
+-- (1, 'Sammy'),
+-- (2, 'Valentin'),
+-- (3, 'Batiste'),
+-- (4, 'Hugo'),
+-- (5, 'Gaspar'),
+-- (6, 'Cornelius'),
+-- (7, 'Giovanna');
+-- COMMIT;
+
 -- Foreign key relationships (optional, can be uncommented if needed)
 -- ALTER TABLE fall_alerts
 --     ADD CONSTRAINT fk_fall_alerts_device
