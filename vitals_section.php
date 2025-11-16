@@ -26,10 +26,10 @@
     v.temperature,
     r.name
 FROM
-    vitals v
+    residents_vitals v
 JOIN
     residents r ON v.device_id = r.device_id
- WHERE device_id = :dev;');
+ WHERE v.device_id = :dev;');
             $stmt->execute(['dev' => htmlspecialchars($_REQUEST["devid"])]);
             $vitalss = $stmt->fetchAll();
         } else {

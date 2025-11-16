@@ -22,10 +22,10 @@
     f.jerkmagnitude,
     r.name
 FROM
-    falls f
+    fall_alerts f
 JOIN
     residents r ON f.device_id = r.device_id
-WHERE device_id = :dev;');
+WHERE f.device_id = :dev;');
             $stmt->execute(['dev' => htmlspecialchars($_REQUEST["devid"])]);
             $falls = $stmt->fetchAll();
         } else {
