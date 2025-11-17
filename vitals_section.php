@@ -26,10 +26,10 @@
     v.temperature,
     r.name
 FROM
-    vitals v
+    residents_vitals v
 JOIN
     residents r ON v.device_id = r.device_id
- WHERE device_id = :dev;');
+ WHERE v.device_id = :dev;');
             $stmt->execute(['dev' => htmlspecialchars($_REQUEST["devid"])]);
             $vitalss = $stmt->fetchAll();
         } else {
@@ -51,14 +51,19 @@ JOIN
         }
 
         foreach ($vitalss as $_vitals_index => $vitals) {
+            $spo2Status = ($vitals['spo2'] < 90) ? 'badge-danger' : (($vitals['spo2'] < 95) ? 'badge-warning' : 'badge-success');
+
+            $hrStatus = (($vitals['heart_rate'] < 60) || ($vitals['heart_rate'] > 100)) ?
+                'badge-warning' : 'badge-success';
+
         ?>
 
             <tr>
-                <td><strong>${record.name || 'Unknown'}</strong><span class="resident-badge">${record.device_id}</span></td>
-                <td><span class="badge ${spo2Status}">${record.spo2}%</span></td>
-                <td><span class="badge ${hrStatus}">${record.heart_rate} BPM</span></td>
-                <td>${record.temperature ? record.temperature + '°C' : 'N/A'}</td>
-                <td>${new Date(record.timestamp).toLocaleString()}</td>
+                <td><strong><?php echo $vitals['name'] ?></strong><span class="resident-badge"><? echo $vitals['device_id']?></span></td>
+                <td><span class="badge <?php echo $spo2Status ?>"><?php echo $vitals['spo2'] ?>%</span></td>
+                <td><span class="badge <?php echo $hrStatus ?>"><?php echo $vitals['heart_rate'] ?> BPM</span></td>
+                <td><?php echo ($vitals['temperature'] ? $vitals['temperature'] . '°C' : 'N/A') ?></td>
+                <td><?php echo $vitals['timestamp'] ?></td>
             </tr>
 
         <?php

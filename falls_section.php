@@ -22,10 +22,10 @@
     f.jerkmagnitude,
     r.name
 FROM
-    falls f
+    fall_alerts f
 JOIN
     residents r ON f.device_id = r.device_id
-WHERE device_id = :dev;');
+WHERE f.device_id = :dev;');
             $stmt->execute(['dev' => htmlspecialchars($_REQUEST["devid"])]);
             $falls = $stmt->fetchAll();
         } else {
@@ -54,9 +54,9 @@ JOIN
         ?>
 
             <tr <?php if ($isRecent) echo ' class="recent-fall"' ?>>
-                <td><strong>${record.name || 'Unknown'}</strong><span class="resident-badge">${record.device_id}</span></td>
-                <td><span class="badge ${severity}">${record.jerkmagnitude.toFixed(2)}</span></td>
-                <td>${new Date(record.timestamp).toLocaleString()}<?php if ($isRecent) echo ' 🚨' ?></td>
+                <td><strong><?php echo $fall['name'] ?></strong><span class="resident-badge"><? echo $fall['device_id']?></span></td>
+                <td><span class="badge <?php echo $severity?>"><?php echo $fall['jerkmagnitude']?></span></td>
+                <td><?php echo $fall['timestamp']; if ($isRecent) echo ' 🚨' ?></td>
             </tr>
         
 
