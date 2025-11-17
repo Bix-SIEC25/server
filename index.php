@@ -99,16 +99,25 @@
 
                 <div class="device" role="img" aria-label="EHPAD Patrol dashboard preview">
                     <div class="topbar">
-                        <div style="font-weight:700">EHPAD Patrol</div>
+                        <div style="font-weight:700">EHPAD Patrol news</div>
                         <div style="flex:1"></div>
-                        <div class="small muted">v0.1 · prototype</div>
+                        <div class="small muted">updated a few moments ago</div>
                     </div>
 
                     <div class="content">
                         <div class="card-rect">
-                            <strong>Soon</strong>
-                            <span class="small">Some info here</span>
-                            <div class="small-val">Soon</div>
+                            <strong>SP0 review</strong>
+                            <span class="small">The project is ready to start!</span>
+                            <!-- <div class="small-val">Soon</div> -->
+                            <div class="small-val">€100</div>
+                            <span class="small">worth of equipment ordered</span>
+                        </div>
+                        <div class="card-rect">
+                            <strong>SP1 review</strong>
+                            <span class="small">The review will take place the 18th at 3p.m.</span>
+                            <!-- <div class="small-val">Soon</div> -->
+                            <div class="small-val">1st demo</div>
+                            <span class="small">emergency stop</span>
                         </div>
 
                         <!-- <div class="card-rect">
