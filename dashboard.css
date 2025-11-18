@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #d894dd 0%, #954d9a 100%);
     min-height: 100vh;
     padding: 20px;
 }
@@ -39,7 +39,7 @@ h1 {
 }
 
 .card h2 {
-    color: #667eea;
+    color: #823788;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
@@ -50,7 +50,7 @@ h1 {
     content: '';
     width: 4px;
     height: 24px;
-    background: #667eea;
+    background: #823788;
     border-radius: 2px;
 }
 
@@ -61,7 +61,7 @@ table {
 }
 
 th {
-    background: #667eea;
+    background: #823788;
     color: white;
     padding: 12px;
     text-align: left;
@@ -101,7 +101,7 @@ tr:hover {
 }
 
 .refresh-btn {
-    background: #667eea;
+    background: #823788;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -113,9 +113,9 @@ tr:hover {
 }
 
 .refresh-btn:hover {
-    background: #5568d3;
+    background: #954d9a;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 5px 15px rgba(212, 102, 234, 0.4);
 }
 
 .no-data {
@@ -128,7 +128,7 @@ tr:hover {
 .loading {
     text-align: center;
     padding: 40px;
-    color: #667eea;
+    color: #823788;
 }
 
 .filter-section {
@@ -140,7 +140,7 @@ tr:hover {
 
 .filter-select {
     padding: 10px 15px;
-    border: 2px solid #667eea;
+    border: 2px solid #823788;
     border-radius: 8px;
     font-size: 1em;
     cursor: pointer;
@@ -151,13 +151,13 @@ tr:hover {
 
 .filter-select:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 0 0 3px rgba(219, 102, 234, 0.2);
 }
 
 .resident-badge {
     display: inline-block;
     padding: 4px 8px;
-    background: #667eea;
+    background: #823788;
     color: white;
     border-radius: 12px;
     font-size: 0.8em;

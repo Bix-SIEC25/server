@@ -12,11 +12,11 @@
 
 <body>
     <div class="container">
-        <h1>Wristband Gateway Dashboard</h1>
+        <h1>EHPAD Patrol's demo dashboard</h1>
 
         <div class="card" style="margin-bottom: 20px;">
             <div class="filter-section">
-                <label for="resident-filter" style="font-weight: 600; color: #667eea;">Filter by Resident:</label>
+                <label for="resident-filter" style="font-weight: 600; color: #823788;">Filter by Resident:</label>
                 <select id="resident-filter" class="filter-select" onchange="filterByResident()">
                     <option value="">All Residents</option>
                 </select>
