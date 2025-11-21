@@ -18,5 +18,15 @@ $insert->execute([
     'temperature' => htmlspecialchars($_REQUEST["t"])
 ]);
 
+@file_get_contents(
+    "http://127.0.0.1:6442/push",
+    false,
+    stream_context_create(['http' => [
+        'method' => 'POST',
+        'header' => "Content-Type: text/plain\r\n",
+        'content' => "bix/wristband:new vitals"
+    ]])
+);
+
 header("Location: ./ok");
 exit;

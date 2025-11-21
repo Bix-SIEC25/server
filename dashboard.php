@@ -178,6 +178,76 @@
         loadResidents();
         loadVitals();
         loadFalls();
+
+
+        let socket;
+        let tries = 0;
+
+        const connect = function() {
+            // Return a promise, which will wait for the socket to open
+            return new Promise((resolve, reject) => {
+
+                const socketUrl = `wss://magictintin.fr:8443`
+
+                socket = new WebSocket(socketUrl);
+
+                socket.onopen = (e) => {
+                    resolve();
+                    sendMsg("ping");
+                }
+
+                socket.onmessage = (data) => {
+                    console.log('websocket sent', data.data); // data.data
+                    if (data.data.includes("new vitals"))
+                        loadVitals();
+                    else if (data.data.includes("new fall"))
+                        loadFalls();
+                }
+
+                socket.onclose = (e) => {
+                    // Return an error if any occurs
+                    // console.log('Disconnected from websocket', e);
+                    console.log("Reconnecting to websocket...");
+                    loadVitals();
+                    loadFalls();
+                    setTimeout(() => {
+                        connect();
+                    }, 1000);
+                }
+
+                socket.onerror = (e) => {
+                    // Return an error if any occurs
+                    console.log(e);
+                    resolve();
+                    // Try to connect again
+                    if (tries < 3) {
+                        tries++;
+                        setTimeout(() => {
+                            connect();
+                        }, 1000);
+                    } else
+                        console.log("REFRESH THE PAGE");
+
+                }
+            });
+        }
+
+        // check if a websocket is open
+        const isOpen = function(ws) {
+            return ws.readyState === ws.OPEN
+        }
+
+        function sendMsg(message = 'ping') {
+            if (isOpen(socket)) {
+                socket.send(`bix/wristband:${message}`);
+                console.log(`${message} sent to server (bix room, wristband group)`);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Connect to the websocket
+            connect();
+        });
     </script>
 </body>
 

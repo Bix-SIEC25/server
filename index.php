@@ -101,7 +101,7 @@
                     <div class="topbar">
                         <div style="font-weight:700">EHPAD Patrol news</div>
                         <div style="flex:1"></div>
-                        <div class="small muted">updated a few moments ago</div>
+                        <div class="small muted">updated a few days ago</div>
                     </div>
 
                     <div class="content">
