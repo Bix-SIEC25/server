@@ -29,7 +29,9 @@ FROM
     residents_vitals v
 JOIN
     residents r ON v.device_id = r.device_id
- WHERE v.device_id = :dev;');
+WHERE v.device_id = :dev
+ORDER BY v.timestamp DESC
+;');
             $stmt->execute(['dev' => htmlspecialchars($_REQUEST["devid"])]);
             $vitalss = $stmt->fetchAll();
         } else {
@@ -44,8 +46,9 @@ JOIN
 FROM
     residents_vitals v
 JOIN
-    residents r ON v.device_id = r.device_id;
-');
+    residents r ON v.device_id = r.device_id
+ORDER BY v.timestamp DESC
+;');
             $stmt->execute();
             $vitalss = $stmt->fetchAll();
         }

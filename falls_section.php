@@ -25,7 +25,9 @@ FROM
     fall_alerts f
 JOIN
     residents r ON f.device_id = r.device_id
-WHERE f.device_id = :dev;');
+WHERE f.device_id = :dev
+ORDER BY f.timestamp DESC
+;');
             $stmt->execute(['dev' => htmlspecialchars($_REQUEST["devid"])]);
             $falls = $stmt->fetchAll();
         } else {
@@ -38,7 +40,9 @@ WHERE f.device_id = :dev;');
 FROM
     fall_alerts f
 JOIN
-    residents r ON f.device_id = r.device_id;');
+    residents r ON f.device_id = r.device_id
+ORDER BY f.timestamp DESC
+;');
             $stmt->execute();
             $falls = $stmt->fetchAll();
         }
