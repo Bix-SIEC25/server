@@ -18,7 +18,7 @@
             <div class="logo">LV</div>
             <div>
                 <h1>Logs Viewer</h1>
-                <p class="lead">Fetches <code>logs_section.php</code> into <code>#logs</code>. Modern, responsive viewer with quick filters.</p>
+                <p class="lead">Bix's car logs</p>
             </div>
         </header>
 

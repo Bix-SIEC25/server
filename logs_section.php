@@ -3,8 +3,8 @@
         <tr>
             <th>Sender</th>
             <th>Level</th>
-            <th>Timestamp</th>
             <th>Message</th>
+            <th>Timestamp</th>
         </tr>
     </thead>
     <tbody>
