@@ -139,6 +139,72 @@
                 if (e.which === 13) fetchLogs();
             });
         });
+
+        let socket;
+        let tries = 0;
+
+        const connect = function() {
+            // Return a promise, which will wait for the socket to open
+            return new Promise((resolve, reject) => {
+
+                const socketUrl = `wss://magictintin.fr:8443`
+
+                socket = new WebSocket(socketUrl);
+
+                socket.onopen = (e) => {
+                    resolve();
+                    sendMsg("ping");
+                }
+
+                socket.onmessage = (data) => {
+                    console.log('websocket sent', data.data); // data.data
+                    if (data.data.includes("new log"))
+                        fetchLogs();
+                }
+
+                socket.onclose = (e) => {
+                    // Return an error if any occurs
+                    // console.log('Disconnected from websocket', e);
+                    console.log("Reconnecting to websocket...");
+                    fetchLogs();
+                    setTimeout(() => {
+                        connect();
+                    }, 1000);
+                }
+
+                socket.onerror = (e) => {
+                    // Return an error if any occurs
+                    console.log(e);
+                    resolve();
+                    // Try to connect again
+                    if (tries < 3) {
+                        tries++;
+                        setTimeout(() => {
+                            connect();
+                        }, 1000);
+                    } else
+                        console.log("REFRESH THE PAGE");
+
+                }
+            });
+        }
+
+        // check if a websocket is open
+        const isOpen = function(ws) {
+            return ws.readyState === ws.OPEN
+        }
+
+        function sendMsg(message = 'ping') {
+            if (isOpen(socket)) {
+                socket.send(`bix/logs:${message}`);
+                console.log(`${message} sent to server (bix room, logs group)`);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Connect to the websocket
+            connect();
+        });
     </script>
 </body>
 

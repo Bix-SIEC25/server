@@ -23,7 +23,7 @@ $insert->execute([
     stream_context_create(['http' => [
         'method' => 'POST',
         'header' => "Content-Type: text/plain\r\n",
-        'content' => "bix/wristband:new fall"
+        'content' => "bix/logs:new log"
     ]])
 );
 
