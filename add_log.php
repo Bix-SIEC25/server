@@ -27,5 +27,15 @@ $insert->execute([
     ]])
 );
 
+@file_get_contents(
+    "http://127.0.0.1:6442/push",
+    false,
+    stream_context_create(['http' => [
+        'method' => 'POST',
+        'header' => "Content-Type: text/plain\r\n",
+        'content' => "bix/logcontent:" . $_REQUEST["type"] . "|" . $_REQUEST["sender"] . ">" . $_REQUEST["msg"]
+    ]])
+);
+
 header("Location: ./ok");
 exit;

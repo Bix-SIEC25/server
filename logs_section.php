@@ -16,19 +16,19 @@
 
         $logs = [];
         if (isset($_REQUEST["sender"]) && isset($_REQUEST["type"])) {
-            $stmt = $db->prepare('SELECT * FROM bix_logs WHERE sender = :sender AND type = :type ORDER BY timestamp DESC;');
+            $stmt = $db->prepare('SELECT * FROM bix_logs WHERE sender = :sender AND type = :type ORDER BY timestamp DESC LIMIT 200;');
             $stmt->execute(['sender' => htmlspecialchars($_REQUEST["sender"]), 'type' => htmlspecialchars($_REQUEST["type"])]);
             $logs = $stmt->fetchAll();
         } else if (isset($_REQUEST["type"])) {
-            $stmt = $db->prepare('SELECT * FROM bix_logs WHERE type = :type ORDER BY timestamp DESC;');
+            $stmt = $db->prepare('SELECT * FROM bix_logs WHERE type = :type ORDER BY timestamp DESC LIMIT 200;');
             $stmt->execute(['type' => htmlspecialchars($_REQUEST["type"])]);
             $logs = $stmt->fetchAll();
         } else if (isset($_REQUEST["sender"])) {
-            $stmt = $db->prepare('SELECT * FROM bix_logs WHERE sender = :sender ORDER BY timestamp DESC;');
+            $stmt = $db->prepare('SELECT * FROM bix_logs WHERE sender = :sender ORDER BY timestamp DESC LIMIT 200;');
             $stmt->execute(['sender' => htmlspecialchars($_REQUEST["sender"])]);
             $logs = $stmt->fetchAll();
         } else {
-            $stmt = $db->prepare('SELECT * FROM bix_logs ORDER BY timestamp DESC;');
+            $stmt = $db->prepare('SELECT * FROM bix_logs ORDER BY timestamp DESC LIMIT 200;');
             $stmt->execute();
             $logs = $stmt->fetchAll();
         }
