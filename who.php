@@ -64,7 +64,7 @@
           if (ev.data == "ping") return setStatus('Connected'); //console.log("ping received");
           setStatus('Message received  loading resident card...');
 
-          let payload = ev.data;
+          let payload = ev.data.substring(2);
           try {
             const parsed = JSON.parse(payload);
             if (parsed && typeof parsed === 'object') {
