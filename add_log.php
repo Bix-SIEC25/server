@@ -33,7 +33,7 @@ $insert->execute([
     stream_context_create(['http' => [
         'method' => 'POST',
         'header' => "Content-Type: text/plain\r\n",
-        'content' => "bix/logcontent:" . $_REQUEST["type"] . "|" . $_REQUEST["sender"] . ">" . $_REQUEST["msg"]
+        'content' => "bix/log_" . $_REQUEST["sender"] . ":" . $_REQUEST["type"] . "|" . $_REQUEST["msg"]
     ]])
 );
 
