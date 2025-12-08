@@ -46,7 +46,7 @@ INSERT INTO `residents` (`device_id`, `name`, `last_name`, `age`, `notes`) VALUE
 (4, 'Hugo', 'R.', 88, 'Urinary incontinence'),
 (5, 'Gaspar', 'S.', 69, 'Sleep disorders'),
 (6, 'Cornelius', 'S.', 103, 'Cardiovascular diseases'),
-(7, 'Giovanna', 'G.', 0, 'Respiratory problems');
+(7, 'Giovanna', 'G.', 81, 'Respiratory problems');
 
 --
 -- Indexes for dumped tables
