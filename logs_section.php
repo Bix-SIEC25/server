@@ -14,6 +14,7 @@
         include_once("../insa_db.php");
         $db = dbConnect();
 
+
         $logs = [];
         if (isset($_REQUEST["sender"]) && isset($_REQUEST["type"])) {
             $stmt = $db->prepare('SELECT * FROM bix_logs WHERE sender = :sender AND type = :type ORDER BY timestamp DESC LIMIT 200;');
@@ -35,6 +36,9 @@
 
         foreach ($logs as $_log_index => $log) {
             if ($log['type'] > 3) continue;
+
+	    if (!isset($_REQUEST["watchdog"]) && str_ends_with(htmlspecialchars($log["sender"]),"watchdog")) continue;
+
             $logType = ($log['type'] == 0) ? 'error' : (($log['type'] == 1) ? 'warning' : (($log['type'] == 2) ? 'trace' : 'debug'));
             // $logType = ($log['type'] == 0) ? 'error' : (($log['type'] == 1) ? 'warning' : (($log['type'] == 2) ? 'trace' : 'debug'));
         ?>

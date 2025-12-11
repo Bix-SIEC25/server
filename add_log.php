@@ -1,6 +1,6 @@
 <?php
 
-if (!isset($_REQUEST["sender"]) || !isset($_REQUEST["type"]) || !isset($_REQUEST["msg"])) {
+if (!isset($_REQUEST["sender"]) || !isset($_REQUEST["type"]) || !isset($_REQUEST["msg"])) {// || str_ends_with(htmlspecialchars($_REQUEST["sender"]),"watchdog")) {
     header("Location: ./ko");
     exit;
 }

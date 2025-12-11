@@ -43,7 +43,8 @@ $insert->execute([
     stream_context_create(['http' => [
         'method' => 'POST',
         'header' => "Content-Type: text/plain\r\n",
-	'content' => "bix/goto:goto7.65|-1.15"
+	//'content' => "bix/goto:goto7.65|-1.15"
+	'content' => "bix/goto:goto13.3|3.04"
     ]])
 );
 
