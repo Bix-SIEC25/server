@@ -1,6 +1,6 @@
 <?php
 
-if (!isset($_REQUEST["devid"]) || !isset($_REQUEST["mag"])) {
+if (!isset($_REQUEST["devid"]) || !isset($_REQUEST["mag"]) || !isset($_REQUEST["zone"])) {
     header("Location: ./ko");
     exit;
 }
@@ -8,12 +8,13 @@ if (!isset($_REQUEST["devid"]) || !isset($_REQUEST["mag"])) {
 include_once("../insa_db.php");
 $db = dbConnect();
 
-$sqlQuery = 'INSERT INTO fall_alerts(device_id, jerkmagnitude) VALUES (:dev, :mag)';
+$sqlQuery = 'INSERT INTO fall_alerts(device_id, jerkmagnitude, zone) VALUES (:dev, :mag, :zone)';
 
 $insert = $db->prepare($sqlQuery);
 $insert->execute([
     'dev' => htmlspecialchars($_REQUEST["devid"]),
-    'mag' => htmlspecialchars($_REQUEST["mag"])
+    'mag' => htmlspecialchars($_REQUEST["mag"]),
+    'zone' => htmlspecialchars($_REQUEST["zone"])
 ]);
 
 @file_get_contents(

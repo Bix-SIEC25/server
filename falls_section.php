@@ -3,6 +3,7 @@
         <tr>
             <th>Resident</th>
             <th>Jerk Magnitude</th>
+            <th>Zone</th>
             <th>Timestamp</th>
         </tr>
     </thead>
@@ -20,6 +21,7 @@
     f.timestamp,
     f.device_id,
     f.jerkmagnitude,
+    f.aonz,
     r.name
 FROM
     fall_alerts f
@@ -36,6 +38,7 @@ ORDER BY f.timestamp DESC
     f.timestamp,
     f.device_id,
     f.jerkmagnitude,
+    f.zone,
     r.name
 FROM
     fall_alerts f
@@ -60,6 +63,7 @@ ORDER BY f.timestamp DESC
             <tr <?php if ($isRecent) echo ' class="recent-fall"' ?>>
                 <td><strong><?php echo $fall['name'] ?></strong><span class="resident-badge"><? echo $fall['device_id']?></span></td>
                 <td><span class="badge <?php echo $severity?>"><?php echo $fall['jerkmagnitude']?></span></td>
+                <td><span class="badge"><?php echo $fall['zone']?></span></td>
                 <td><?php echo $fall['timestamp']; if ($isRecent) echo ' 🚨' ?></td>
             </tr>
         
