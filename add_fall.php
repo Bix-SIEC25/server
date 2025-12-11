@@ -27,5 +27,15 @@ $insert->execute([
     ]])
 );
 
+@file_get_contents(
+    "http://127.0.0.1:6442/push",
+    false,
+    stream_context_create(['http' => [
+        'method' => 'POST',
+        'header' => "Content-Type: text/plain\r\n",
+        'content' => "bix/fall_alert:" . htmlspecialchars($_REQUEST["devid"]) . "|" . htmlspecialchars($_REQUEST["zone"])
+    ]])
+);
+
 header("Location: ./ok");
 exit;
