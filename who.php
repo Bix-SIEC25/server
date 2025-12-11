@@ -55,8 +55,9 @@
         }
 
         ws.addEventListener('open', () => {
-          setStatus('Connected  subscribing to QR channel');
+          setStatus('Connected  subscribing to QR and Face channel');
           try{ ws.send('bix/log_QRNode:ping'); }catch(e){console.warn(e)}
+          try{ ws.send('bix/log_FaceRecognitionNode:ping'); }catch(e){console.warn(e)}
         });
 
         ws.addEventListener('message', (ev) => {
