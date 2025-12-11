@@ -21,7 +21,7 @@
 </head>
 <body>
   <main class="stage" id="stage">
-    <h1>Waiting for QR code scan</h1>
+    <h1>Waiting for QR code scan or face recognition</h1>
     <div class="dotline" aria-hidden="true">
       <div class="dot"></div>
       <div class="dot" style="animation-delay:.2s"></div>
