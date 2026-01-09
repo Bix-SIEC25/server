@@ -46,12 +46,14 @@ function sanitize_text_field(string $s): string
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_FILES['image']) || !isset($_POST['popop'])) {
         $errors[] = 'No file uploaded (expected field name "image"). (or no popop)';
+        echo 'No file uploaded (expected field name "image"). (or no popop)';
         header("Location: ./ko");
         exit;
     }
     $kek = file_get_contents('../.bix', false);
-    if (htmlspecialchars($_POST['popop']) != $kek) {
+    if (trim(htmlspecialchars($_POST['popop'])) != trim($kek)) {
         $errors[] = 'No file uploaded (expected field name "image").';
+	#error_log("ERR: " . trim($kek) . " != '" . trim(htmlspecialchars($_POST['popop'])) . "'\n (true)\n", 3, "/var/www/bix.ovh/uploads/errrrrrrr");
         header("Location: ./ko");
         exit;
     }
@@ -119,7 +121,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // move uploaded file safely
     if (!move_uploaded_file($f['tmp_name'], $destination)) {
         $errors[] = 'Failed to move uploaded file.';
-	echo "rip";
         header("Location: ./ko");
         exit;
     }
