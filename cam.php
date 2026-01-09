@@ -119,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // move uploaded file safely
     if (!move_uploaded_file($f['tmp_name'], $destination)) {
         $errors[] = 'Failed to move uploaded file.';
+	echo "rip";
         header("Location: ./ko");
         exit;
     }
