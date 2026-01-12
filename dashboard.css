@@ -196,7 +196,7 @@ nav a.cta {
 }
 
 .card table {
-    max-height: 30vh;
+    max-height: 20vh;
     overflow: auto;
 }
 
@@ -255,6 +255,12 @@ nav a.cta {
     justify-content: space-between;
     gap: 12px;
     margin-bottom: 8px;
+}
+
+.card-resident {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(12,40,44,0.06);
 }
 
 .card h2 {

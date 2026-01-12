@@ -62,16 +62,26 @@
 
     <main class="container">
         <section class="hero-grid" aria-label="Dashboard main">
+
             <!-- left column: Hero / controls -->
             <div class="hero-left">
                 <div class="eyebrow">Autonomous · Safe · Caring</div>
                 <h1 class="title">EHPAD Patrol - Live demo</h1>
                 <p class="subtitle">Demonstration dashboard.</p>
 
-                <div class="hero-ctas">
+                <!-- <div class="hero-ctas">
                     <a class="btn primary" href="#contact" aria-label="Contact for investors">▶ Request a demo</a>
                     <a class="btn ghost" href="#about">Learn more</a>
+                </div> -->
+
+                <!-- Fall visual / preview (hidden by default) -->
+                <div class="card fall-visual-card" id="fall-visual">
+                    <h3 style="margin:0 0 10px 0">Fall visualization</h3>
+                    <div id="fall-visual-content" class="no-data">No fall to display</div>
                 </div>
+
+                <div id="fall-card-container" class="card-resident" aria-live="polite" style="margin-top:12px;"></div>
+
                 <div class="card" style="margin-top:18px">
                     <h3 style="margin:0 0 8px 0">Live photo</h3>
                     <p class="small muted">Live photo from the Bix's car.</p>
@@ -85,12 +95,6 @@
             <!-- right column: vitals + falls + fall visual -->
             <aside class="hero-right" aria-hidden="false">
                 <div class="right-stack">
-                    <!-- Fall visual / preview (hidden by default) -->
-                    <div class="card fall-visual-card" id="fall-visual">
-                        <h3 style="margin:0 0 10px 0">Fall visualization</h3>
-                        <div id="fall-visual-content" class="no-data">No fall to display</div>
-                    </div>
-
                     <div class="card overview-card">
                         <h3 style="margin:0 0 8px 0">Controls</h3>
 
@@ -131,239 +135,7 @@
         <div class="small muted">© Bix - EHPAD Patrol - Demo dashboard</div>
     </footer>
 
-    <script>
-        let selectedDeviceId = '';
-        let residents = [];
-
-        // Load residents list
-        async function loadResidents() {
-            try {
-                const response = await fetch('./raw_residents');
-                residents = await response.json();
-
-                const select = document.getElementById('resident-filter');
-                // clear older options except first
-                select.querySelectorAll('option:not(:first-child)').forEach(n => n.remove());
-
-                residents.forEach(resident => {
-                    const option = document.createElement('option');
-                    option.value = resident.device_id;
-                    option.textContent = `${resident.name} (Device ${resident.device_id})`;
-                    select.appendChild(option);
-                });
-            } catch (error) {
-                console.error('Error loading residents:', error);
-            }
-        }
-
-        // Filter by resident
-        function filterByResident() {
-            const select = document.getElementById('resident-filter');
-            selectedDeviceId = select.value;
-            loadAllData();
-        }
-
-        // Load all data
-        function loadAllData() {
-            loadVitals();
-            loadFalls();
-        }
-
-        // Load vitals data
-        async function loadVitals() {
-            const url = selectedDeviceId ? `vitals_section.php?devid=${selectedDeviceId}` : 'vitals_section.php';
-            $('#vitals-content').load(url);
-        }
-
-        // Load fall alerts
-        async function loadFalls() {
-            const url = selectedDeviceId ? `falls_section.php?devid=${selectedDeviceId}` : 'falls_section.php';
-            $('#falls-content').load(url);
-        }
-
-        // Auto-refresh every 10 seconds
-        setInterval(() => {
-            loadVitals();
-            loadFalls();
-        }, 10000);
-
-        // Initial load
-        loadResidents();
-        loadVitals();
-        loadFalls();
-
-        let socket;
-        let tries = 0;
-
-        const connect = function() {
-            return new Promise((resolve, reject) => {
-                const socketUrl = `wss://magictintin.fr/ws`;
-                socket = new WebSocket(socketUrl);
-
-                socket.onopen = (e) => {
-                    resolve();
-                    sendMsg("ping");
-                    sendMsgChan("img");
-                    sendMsgChan("admin");
-                }
-
-                socket.onmessage = (event) => {
-                    const data = event.data;
-                    console.log('websocket received', data);
-
-                    // existing triggers reloads
-                    if (data.includes("new vitals")) {
-                        loadVitals();
-                    } else if (data.includes("new fall")) {
-                        loadFalls();
-                    }
-
-                    // update live photo when "img" is received
-                    if (data === "newimg") {
-                        updateLivePhoto();
-                    }
-
-                    // handle fall visualization message of form "visu_fall|Name"
-                    if (data.startsWith("visu_fall")) {
-                        const parts = data.split("|");
-                        const name = parts[1] ? parts[1].trim() : "Unknown";
-                        showFallVisualization(name);
-                        // also reload falls list (optional)
-                        loadFalls();
-                    }
-                }
-
-                socket.onclose = (e) => {
-                    console.log("WebSocket closed - reconnecting...");
-                    // attempt reconnect after brief delay
-                    setTimeout(() => connect(), 200);
-                }
-
-                socket.onerror = (e) => {
-                    console.error("WebSocket error", e);
-                    // resolve so page remains usable, and try reconnect a few times
-                    resolve();
-                    if (tries < 3) {
-                        tries++;
-                        setTimeout(() => connect(), 1000);
-                    } else {
-                        console.warn("WebSocket unable to stabilize; manual refresh recommended.");
-                    }
-                }
-            });
-        }
-
-        // check if a websocket is open
-        const isOpen = function(ws) {
-            return ws && ws.readyState === ws.OPEN;
-        }
-
-        function sendMsg(message = 'ping') {
-            if (isOpen(socket)) {
-                socket.send(`bix/wristband:${message}`);
-                console.log(`${message} sent to server (bix room, wristband group)`);
-            }
-        }
-
-        function sendMsgChan(chan, message = 'ping') {
-            if (isOpen(socket)) {
-                socket.send(`bix/${chan}:${message}`);
-                console.log(`${message} sent to server (bix room, ${chan} group)`);
-            }
-        }
-
-        // update live-photo with cache busting
-        function updateLivePhoto() {
-            const wrp = document.getElementById('livephoto-wrap');
-            const img = document.getElementById('live-photo');
-            // force reload by adding timestamp query param
-            const t = Date.now();
-            img.src = `uploads/last.jpg?t=${t}`;
-            img.onload = () => {
-                // optionally add a subtle highlight when updated
-                img.classList.add('just-updated-img');
-                wrp.classList.add('just-updated');
-                setTimeout(() => {
-                    img.classList.remove('just-updated-img');
-                    wrp.classList.remove('just-updated')
-                }, 800);
-            }
-            img.onerror = () => {
-                console.warn('Live photo not found at uploads/last.jpg');
-            }
-        }
-
-        function showFallVisualization(residentName) {
-            const container = document.getElementById('fall-visual');
-            const content = document.getElementById('fall-visual-content');
-
-            const previewImgPath = `uploads/visu_fall.jpg?t=${Date.now()}`;
-            // create markup: image + overlay text + confirm/no buttons
-            content.innerHTML = `
-                <div class="media-wrap fall-preview-wrap">
-                    <img id="fall-photo" src="${previewImgPath}" alt="fall preview" onerror="this.style.display='none';">
-                </div>
-                <div class="fall-meta">
-                    <div class="alert-text"><strong>${escapeHtml(residentName)}</strong> has fallen.</div>
-                    <div class="confirm-cta">
-                        <div class="small muted">Do you confirm?</div>
-                        <div class="confirm-buttons">
-                            <button class="btn confirm" onclick="confirmFall('${escapeHtml(residentName)}')">Confirm</button>
-                            <button class="btn ghost" onclick="denyFall('${escapeHtml(residentName)}')">No</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // fallback if image not available
-            setTimeout(() => {
-                const img = document.getElementById('fall-photo');
-                if (!img || img.style.display === 'none') {
-                    content.innerHTML = `
-                        <div class="no-data">No image available for <strong>${escapeHtml(residentName)}</strong>, but the system reports a fall.</div>
-                        <div style="margin-top:10px" class="confirm-buttons">
-                            <button class="btn confirm" onclick="confirmFall('${escapeHtml(residentName)}')">Confirm</button>
-                            <button class="btn ghost" onclick="denyFall('${escapeHtml(residentName)}')">No</button>
-                        </div>
-                    `;
-                }
-            }, 500);
-        }
-
-        // simple escape to avoid injection in the small context of this dashboard
-        function escapeHtml(unsafe) {
-            return String(unsafe).replace(/[&<>"'`=\/]/g, function(s) {
-                return ({
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    '"': '&quot;',
-                    "'": '&#39;',
-                    '/': '&#x2F;',
-                    '`': '&#x60;',
-                    '=': '&#x3D;'
-                })[s];
-            });
-        }
-
-        // stubs for confirm / deny buttons (do nothing for the moment)
-        function confirmFall(name) {
-            console.log('Confirm fall for', name);
-            // future: send ajax or websocket ack
-            // For now, remove the fall-visual content and show no-data text
-            document.getElementById('fall-visual-content').innerHTML = '<div class="no-data">No fall to display</div>';
-        }
-
-        function denyFall(name) {
-            console.log('Deny fall for', name);
-            document.getElementById('fall-visual-content').innerHTML = '<div class="no-data">No fall to display</div>';
-        }
-
-        // Start websocket on DOM ready
-        document.addEventListener('DOMContentLoaded', function() {
-            connect();
-        });
-    </script>
+    <script src="dashboard.js"></script>
 </body>
 
 </html>
