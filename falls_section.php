@@ -21,7 +21,7 @@
     f.timestamp,
     f.device_id,
     f.jerkmagnitude,
-    f.aonz,
+    f.zone,
     r.name
 FROM
     fall_alerts f

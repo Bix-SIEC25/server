@@ -22,7 +22,7 @@ $insert->execute([
 ]);
 
 if ($sender == "FaceRecognitionNode" || $sender == "QRNode") {
-    copy("uploads/last.jpg","uploads/recog.jpg");
+    copy("uploads/last.jpg","uploads/visu_fall.jpg");
     @file_get_contents(
         "http://127.0.0.1:6442/push",
         false,

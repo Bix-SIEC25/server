@@ -195,6 +195,11 @@ nav a.cta {
     margin-bottom: 16px;
 }
 
+.card table {
+    max-height: 30vh;
+    overflow: auto;
+}
+
 .overview-card {
     margin-top: 18px;
 }
@@ -220,8 +225,13 @@ nav a.cta {
 
 /* slight highlight animation for updated photo */
 .just-updated {
-    box-shadow: 0 6px 22px rgba(81, 184, 184, 0.16);
-    transform: scale(1.01);
+    /* box-shadow: 0 6px 22px rgba(81, 184, 184, 0.16); */
+    /* transform: scale(1.01); */
+    animation: heartbeat 1s;
+}
+
+.just-updated-img {
+    animation: heartbeat-img 1s;
 }
 
 /* Right column stack */
@@ -521,7 +531,141 @@ td:last-child {
     opacity: 0.85;
 }
 
+/* =========================
+   SPECIFIC DECORATIONS (positions & sizes)
+   ========================= */
 
+/* top-left cluster */
+.sq--tl-1 {
+    left: 6%;
+    top: 6%;
+    width: 140px;
+    height: 140px;
+    background: linear-gradient(160deg, rgba(47, 122, 122, 0.10), rgba(230, 178, 122, 0.06));
+    opacity: 0.85;
+    border: 1px solid rgba(12, 40, 44, 0.03);
+}
+
+.sq--tl-2 {
+    left: 2%;
+    top: 18%;
+    width: 92px;
+    height: 92px;
+    background: linear-gradient(180deg, rgba(47, 122, 122, 0.06), rgba(230, 178, 122, 0.03));
+    opacity: 0.55;
+}
+
+.sq--tl-3.outline {
+    left: 12%;
+    top: 2%;
+    width: 220px;
+    height: 220px;
+    opacity: 0.12;
+}
+
+/* left-mid */
+.sq--l-1 {
+    left: -30px;
+    top: 42%;
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(180deg, rgba(47, 122, 122, 0.07), rgba(230, 178, 122, 0.04));
+    opacity: 0.42;
+    border-radius: 12px;
+}
+
+.sq--l-2.outline {
+    left: -24px;
+    top: 56%;
+    width: 160px;
+    height: 160px;
+    opacity: 0.08;
+}
+
+/* right clusters */
+.sq--r-1 {
+    right: 6%;
+    top: 12%;
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(180deg, rgba(47, 122, 122, 0.09), rgba(230, 178, 122, 0.04));
+    opacity: 0.7;
+}
+
+.sq--r-2.outline {
+    right: 2%;
+    top: 30%;
+    width: 220px;
+    height: 220px;
+    opacity: 0.06;
+}
+
+.sq--r-3 {
+    right: -18px;
+    bottom: 18%;
+    width: 88px;
+    height: 88px;
+    background: linear-gradient(180deg, rgba(47, 122, 122, 0.06), rgba(230, 178, 122, 0.03));
+    opacity: 0.45;
+}
+
+/* bottom decorations */
+.sq--b-1 {
+    left: 8%;
+    bottom: 14%;
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(180deg, rgba(47, 122, 122, 0.06), rgba(230, 178, 122, 0.04));
+    opacity: 0.3;
+    transform: rotate(-6deg);
+}
+
+.sq--b-2.outline {
+    right: 14%;
+    bottom: 8%;
+    width: 180px;
+    height: 180px;
+    opacity: 0.07;
+    transform: rotate(4deg);
+}
+
+/* small accent scattered */
+.sq--s-1 {
+    left: 46%;
+    top: 6%;
+    width: 62px;
+    height: 62px;
+    background: linear-gradient(180deg, rgba(47, 122, 122, 0.08), rgba(230, 178, 122, 0.04));
+    opacity: 0.55;
+}
+
+.sq--s-2.outline {
+    left: 54%;
+    top: 18%;
+    width: 100px;
+    height: 100px;
+    opacity: 0.05;
+    transform: rotate(-8deg);
+}
+
+/* apply animation classes diversely */
+.sq--tl-1,
+.sq--r-3,
+.sq--b-1 {
+    animation: floatC 11s ease-in-out infinite;
+}
+
+.sq--tl-2,
+.sq--r-1,
+.sq--s-1 {
+    animation: floatA 8.5s ease-in-out infinite;
+}
+
+.sq--l-1,
+.sq--s-2,
+.sq--tl-3 {
+    animation: floatB 10s ease-in-out infinite;
+}
 
 
 /* Decorative background container */
@@ -607,4 +751,19 @@ main,
 footer {
     position: relative;
     z-index: 10;
+}
+
+@keyframes heartbeat {
+  10% {
+    box-shadow: 0 0 15px var(--accent-300);
+    border: solid 2px var(--accent-300)
+    /* transform: scale(1.05); */
+  }
+}
+
+@keyframes heartbeat-img {
+  10% {
+    /* box-shadow: 0 0 10px var(--accent-300); */
+    transform: scale(1.02);
+  }
 }
