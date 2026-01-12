@@ -7,7 +7,7 @@
     <title>Wristbands Dashboard</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="icon" type="image/x-icon" href="./favicon.png">
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="dashfall.css">
 </head>
 
 <body>
@@ -82,12 +82,90 @@
         async function loadVitals() {
             const url = selectedDeviceId ? `vitals_section.php?devid=${selectedDeviceId}` : 'vitals_section.php';
             $('#vitals-content').load(url);
+
+            // const container = document.getElementById('vitals-content');
+            // container.innerHTML = '<div class="loading">Loading...</div>';
+
+            // try {
+            //     const url = selectedDeviceId ? `/api/vitals?device_id=${selectedDeviceId}` : '/api/vitals';
+            //     const response = await fetch(url);
+            //     const data = await response.json();
+
+            //     if (data.length === 0) {
+            //         container.innerHTML = '<div class="no-data">No vital signs data available</div>';
+            //         return;
+            //     }
+
+            //     let html = '<table><thead><tr>';
+            //     html += '<th>Resident</th><th>SpO2</th><th>Heart Rate</th><th>Board Temperature</th><th>Timestamp</th>';
+            //     html += '</tr></thead><tbody>';
+
+            //     data.forEach(record => {
+            //         const spo2Status = record.spo2 < 90 ? 'badge-danger' : record.spo2 < 95 ? 'badge-warning' : 'badge-success';
+            //         const hrStatus = record.heart_rate < 60 || record.heart_rate > 100 ? 'badge-warning' : 'badge-success';
+
+            //         html += '<tr>';
+            //         html += `<td><strong>${record.name || 'Unknown'}</strong><span class="resident-badge">${record.device_id}</span></td>`;
+            //         html += `<td><span class="badge ${spo2Status}">${record.spo2}%</span></td>`;
+            //         html += `<td><span class="badge ${hrStatus}">${record.heart_rate} BPM</span></td>`;
+            //         html += `<td>${record.temperature ? record.temperature + '°C' : 'N/A'}</td>`;
+            //         html += `<td>${new Date(record.timestamp).toLocaleString()}</td>`;
+            //         html += '</tr>';
+            //     });
+
+            //     html += '</tbody></table>';
+            //     container.innerHTML = html;
+
+            // } catch (error) {
+            //     container.innerHTML = '<div class="no-data">Error loading data</div>';
+            //     console.error('Error:', error);
+            // }
         }
 
         // Load fall alerts
         async function loadFalls() {
             const url = selectedDeviceId ? `falls_section.php?devid=${selectedDeviceId}` : 'falls_section.php';
             $('#falls-content').load(url);
+
+            // const container = document.getElementById('falls-content');
+            // container.innerHTML = '<div class="loading">Loading...</div>';
+
+            // try {
+            //     const url = selectedDeviceId ? `/api/falls?device_id=${selectedDeviceId}` : '/api/falls';
+            //     const response = await fetch(url);
+            //     const data = await response.json();
+
+            //     if (data.length === 0) {
+            //         container.innerHTML = '<div class="no-data">No fall alerts</div>';
+            //         return;
+            //     }
+
+            //     const currentTime = new Date();
+            //     const tenMinutesAgo = new Date(currentTime.getTime() - 10 * 60 * 1000);
+
+            //     let html = '<table><thead><tr>';
+            //     html += '<th>Resident</th><th>Jerk Magnitude</th><th>Timestamp</th>';
+            //     html += '</tr></thead><tbody>';
+
+            //     data.forEach(record => {
+            //         const severity = record.jerkmagnitude > 5 ? 'badge-danger' : record.jerkmagnitude > 3 ? 'badge-warning' : 'badge-success';
+            //         const fallTime = new Date(record.timestamp);
+            //         const isRecent = fallTime > tenMinutesAgo;
+
+            //         html += `<tr${isRecent ? ' class="recent-fall"' : ''}>`;
+            //         html += `<td><strong>${record.name || 'Unknown'}</strong><span class="resident-badge">${record.device_id}</span></td>`;
+            //         html += `<td><span class="badge ${severity}">${record.jerkmagnitude.toFixed(2)}</span></td>`;
+            //         html += `<td>${new Date(record.timestamp).toLocaleString()}${isRecent ? ' 🚨' : ''}</td>`;
+            //         html += '</tr>';
+            //     });
+
+            //     html += '</tbody></table>';
+            //     container.innerHTML = html;
+
+            // } catch (error) {
+            //     container.innerHTML = '<div class="no-data">Error loading data</div>';
+            //     console.error('Error:', error);
+            // }
         }
 
         // Auto-refresh every 10 seconds

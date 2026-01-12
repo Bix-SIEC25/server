@@ -119,27 +119,6 @@
                             <div class="small-val">1st demo</div>
                             <span class="small">emergency stop</span>
                         </div>
-
-                        <!-- <div class="card-rect">
-                            <strong>Rounds</strong>
-                            <span class="small">Next scheduled: 14:30</span>
-                            <div style="margin-top:auto; display:flex; gap:10px; align-items:center;">
-                                <div style="padding:6px 10px; border-radius:8px; background:rgba(31,91,91,0.08); font-weight:700;">Active</div>
-                                <div style="font-size:0.9rem; color:#28585A">ETA 2 min</div>
-                            </div>
-                        </div>
-
-                        <div class="card-rect">
-                            <strong>Safety</strong>
-                            <span class="small">Obstacle detection & fall alert</span>
-                            <div style="margin-top:auto;">Realtime alerts push to staff dashboard and mobile app.</div>
-                        </div>
-
-                        <div class="card-rect">
-                            <strong>Logistics</strong>
-                            <span class="small">Medicine & supplies transport</span>
-                            <div style="margin-top:auto;">Autonomous routes with supervised hand-off.</div>
-                        </div> -->
                     </div>
                 </div>
             </div>
