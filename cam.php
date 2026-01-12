@@ -135,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         stream_context_create(['http' => [
             'method' => 'POST',
             'header' => "Content-Type: text/plain\r\n",
-            'content' => "bix/img:new"
+            'content' => "bix/img:newimg"
         ]])
     );
 

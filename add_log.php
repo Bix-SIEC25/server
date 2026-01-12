@@ -29,7 +29,7 @@ if ($sender == "FaceRecognitionNode" || $sender == "QRNode") {
         stream_context_create(['http' => [
             'method' => 'POST',
             'header' => "Content-Type: text/plain\r\n",
-            'content' => "bix/admin:who|$msg"
+            'content' => "bix/admin:visu_fall|$msg"
         ]])
     );
 }

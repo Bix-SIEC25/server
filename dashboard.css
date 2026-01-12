@@ -2,7 +2,8 @@
 :root {
     --primary-500: #2F7A7A;
     --primary-700: #1F5B5B;
-    --accent-500: #954d9a;
+    --accent-300: #954d9a;
+    --accent-500: #7B4A80;
     --muted-100: #F7FAFB;
     --muted-200: #EEF5F6;
     --muted-400: #C6D8DA;
@@ -201,7 +202,7 @@ nav a.cta {
 /* Media thumbnails */
 .media-wrap {
     width: 100%;
-    height: 240px;
+    /* height: 240px; */
     border-radius: 10px;
     overflow: hidden;
     display: grid;
@@ -247,7 +248,8 @@ nav a.cta {
 }
 
 .card h2 {
-    color: var(--accent-500);
+    color: var(--primary-700);
+    /* color: var(--accent-500); */
     margin: 0;
     font-size: 1.05rem;
     display: flex;
@@ -259,7 +261,8 @@ nav a.cta {
     content: '';
     width: 4px;
     height: 24px;
-    background: var(--accent-500);
+    background: var(--primary-500);
+    /* background: var(--accent-500); */
     border-radius: 2px;
 }
 
@@ -288,6 +291,36 @@ tr:hover {
     background: #f6fbfb;
 }
 
+table tr:hover {
+    background: rgba(47,122,122,0.04);
+}
+
+/* Prevent tables from breaking layout */
+.card {
+    overflow: hidden;
+}
+
+/* Responsive table container */
+.card table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+/* Improve cell wrapping */
+td,
+th {
+    max-width: 260px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* Allow timestamp to wrap nicely */
+td:last-child {
+    white-space: normal;
+}
+
 /* badges */
 .badge {
     display: inline-block;
@@ -314,7 +347,10 @@ tr:hover {
 
 /* refresh button */
 .refresh-btn {
-    background: var(--accent-500);
+    /* background: var(--accent-500); */
+    background: linear-gradient(90deg,
+            var(--primary-500),
+            var(--primary-700));
     color: white;
     border: none;
     padding: 8px 14px;
@@ -455,9 +491,9 @@ tr:hover {
         grid-template-columns: 1fr;
     }
 
-    .media-wrap {
-        height: 180px;
-    }
+    /* .media-wrap {
+        height: 200px;
+    } */
 
     .hero-right {
         order: 2;
@@ -465,9 +501,9 @@ tr:hover {
 }
 
 @media (max-width: 560px) {
-    .media-wrap {
-        height: 140px;
-    }
+    /* .media-wrap {
+        height: 300px;
+    } */
 
     .filter-select {
         min-width: 140px;
@@ -483,4 +519,92 @@ tr:hover {
 .muted {
     color: #375a5a;
     opacity: 0.85;
+}
+
+
+
+
+/* Decorative background container */
+.bg-decor {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.bg-decor .sq {
+    position: absolute;
+    border-radius: 10px;
+    will-change: transform;
+    box-shadow: 0 18px 40px rgba(12, 40, 44, 0.03);
+}
+
+.bg-decor .outline {
+    background: transparent;
+    border: 1.6px solid rgba(12, 40, 44, 0.06);
+    box-shadow: none;
+}
+
+/* Animations */
+@keyframes floatA {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(4deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+@keyframes floatB {
+    0% {
+        transform: translateY(0) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+}
+
+@keyframes floatC {
+    0% {
+        transform: translateY(0) rotate(6deg);
+    }
+
+    50% {
+        transform: translateY(-14px) rotate(10deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(6deg);
+    }
+}
+
+.fA {
+    animation: floatA 8s ease-in-out infinite;
+}
+
+.fB {
+    animation: floatB 10s ease-in-out infinite;
+}
+
+.fC {
+    animation: floatC 12s ease-in-out infinite;
+}
+
+/* ensure content is above decor */
+header,
+main,
+footer {
+    position: relative;
+    z-index: 10;
 }
