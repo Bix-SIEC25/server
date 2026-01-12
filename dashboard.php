@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -135,6 +136,19 @@
         <div class="small muted">© Bix - EHPAD Patrol - Demo dashboard</div>
     </footer>
 
+    <script>
+        <?php if (isset($_SESSION["connected"]) && $_SESSION["connected"] == true) { ?>
+            CONN = true;
+            CHAN = "admin";
+            CONF = "fallconfirmed";
+            DENY = "falldenied";
+        <?php } else { ?>
+            CONN = false;
+            CHAN = "chan";
+            CONF = "conf";
+            DENY = "deny";
+        <?php }?>
+    </script>
     <script src="dashboard.js"></script>
 </body>
 

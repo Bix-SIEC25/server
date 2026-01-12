@@ -188,8 +188,8 @@ function showFallVisualization(residentName) {
             content.innerHTML = `
                         <div class="no-data">No image available for <strong>${escapeHtml(residentName)}</strong>, but the system reports a fall.</div>
                         <div style="margin-top:10px" class="confirm-buttons">
-                            <button class="btn confirm" onclick="confirmFall('${escapeHtml(residentName)}')">Confirm</button>
-                            <button class="btn ghost" onclick="denyFall('${escapeHtml(residentName)}')">No</button>
+                            <button class="btn confirm" onclick="confirmFall('${escapeHtml(residentName)}')" ${(CONN) ? "" : "disabled"}>Confirm</button>
+                            <button class="btn ghost" onclick="denyFall('${escapeHtml(residentName)}')" ${(CONN) ? "" : "disabled"}>No</button>
                         </div>
                     `;
         }
@@ -216,14 +216,14 @@ function escapeHtml(unsafe) {
 function confirmFall(name) {
     console.log('Confirm fall for', name);
     loadResidentCard("");
-    sendMsgChan("admin", "fallconfirmed");
+    sendMsgChan(CHAN, CONF);
     document.getElementById('fall-visual-content').innerHTML = '<div class="no-data">No fall to display</div>';
 }
 
 function denyFall(name) {
     console.log('Deny fall for', name);
     loadResidentCard("");
-    sendMsgChan("admin", "falldenied");
+    sendMsgChan(CHAN, DENY);
     document.getElementById('fall-visual-content').innerHTML = '<div class="no-data">No fall to display</div>';
 }
 
