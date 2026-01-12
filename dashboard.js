@@ -174,8 +174,8 @@ function showFallVisualization(residentName) {
                     <div class="confirm-cta">
                         <div class="small muted">Do you confirm?</div>
                         <div class="confirm-buttons">
-                            <button class="btn confirm" onclick="confirmFall('${escapeHtml(residentName)}')">Confirm</button>
-                            <button class="btn ghost" onclick="denyFall('${escapeHtml(residentName)}')">No</button>
+                            <button class="btn confirm" onclick="confirmFall('${escapeHtml(residentName)}')" ${(CONN) ? "" : "disabled"}>Confirm</button>
+                            <button class="btn ghost" onclick="denyFall('${escapeHtml(residentName)}')" ${(CONN) ? "" : "disabled"}>No</button>
                         </div>
                     </div>
                 </div>
