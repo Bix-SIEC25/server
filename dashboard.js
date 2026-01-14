@@ -99,6 +99,8 @@ const connect = function () {
             } else if (data.includes(DENY) || data.includes(CONF)) {
                 loadResidentCard("");
                 document.getElementById('fall-visual-content').innerHTML = '<div class="no-data">No fall to display</div>';
+            } else if (data.startsWith("setScenario:")) {
+
             }
         }
 

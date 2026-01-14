@@ -136,6 +136,12 @@
         <div class="small muted">© Bix - EHPAD Patrol - Demo dashboard</div>
     </footer>
 
+    <?php if (isset($_SESSION["connected"]) && $_SESSION["connected"] == true) { ?>
+        <div id="connected_info">
+            <span>Connected</span>
+        </div>
+    <?php } ?>
+
     <script>
         <?php if (isset($_SESSION["connected"]) && $_SESSION["connected"] == true) { ?>
             CONN = true;
@@ -147,7 +153,7 @@
             CHAN = "chan";
             CONF = "conf";
             DENY = "deny";
-        <?php }?>
+        <?php } ?>
     </script>
     <script src="dashboard.js"></script>
 </body>
