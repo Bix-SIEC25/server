@@ -85,17 +85,20 @@ const connect = function () {
             }
 
             // update live photo when "img" is received
-            if (data === "newimg") {
+            else if (data === "newimg") {
                 updateLivePhoto();
             }
 
             // handle fall visualization message of form "visu_fall|Name"
-            if (data.startsWith("visu_fall")) {
+            else if (data.startsWith("visu_fall")) {
                 const parts = data.split("|");
                 const name = parts[1] ? parts[1].trim() : "Unknown";
                 showFallVisualization(name);
                 // also reload falls list (optional)
                 loadFalls();
+            } else if (data.includes(DENY) || data.includes(CONF)) {
+                loadResidentCard("");
+                document.getElementById('fall-visual-content').innerHTML = '<div class="no-data">No fall to display</div>';
             }
         }
 
