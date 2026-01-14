@@ -102,10 +102,18 @@
                     <div class="topbar">
                         <div style="font-weight:700">EHPAD Patrol news</div>
                         <div style="flex:1"></div>
-                        <div class="small muted">updated a few days ago</div>
+                        <div class="small muted">updated a few minutes ago</div>
                     </div>
 
-                    <div class="content">
+		    <div class="content">
+			<div class="card-rect">
+                            <strong>SP4 review</strong>
+                            <span class="small">The review is currently taking place</span>
+                            <!-- <div class="small-val">Soon</div> -->
+                            <div class="small-val">Go to the dashboard section</div>
+                            <span class="small"></span>
+                        </div>
+
                         <div class="card-rect">
                             <strong>SP0 review</strong>
                             <span class="small">The project is ready to start!</span>
@@ -246,7 +254,7 @@
                     <p class="small muted">We iterate with caregivers from day one. Prototypes are tested on-site, with attention to non-intrusive assistance and safe interaction. Our autonomous stack is built to prioritize predictable, explainable behavior - essential in sensitive care environments.</p>
 
                     <h4 style="margin-top:18px;">Warning</h4>
-                    <p class="small muted">The project is still in heavy development so you may not have demonstration until January 2026.</p>
+                    <p class="small muted">The project is still in heavy development so you may not have demonstration until January 2026. If you want a demonstration, bring a $500 quotation.</p>
                     <!-- <h4 style="margin-top:18px;">Pilot program</h4>
                     <p class="small muted">We run pilot deployments with custom route setups, staff training and dedicated support. Investors and care-center partners get early access to roadmap features and integration support.</p> -->
                 </div>
