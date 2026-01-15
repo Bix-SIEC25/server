@@ -114,11 +114,17 @@
             autoTimer = null;
             $('#btn-toggle-auto').text('Start');
         }
-
+        currenttimeout = 0;
         $(function() {
             $('#btn-fetch').on('click', function() {
                 fetchLogs();
             });
+	    $('#filter-sender').on('keypress', function () {
+		    //console.log("timeout", currenttimeout);
+		    if (currenttimeout)
+    		        clearTimeout(currenttimeout);
+		    currenttimeout = setTimeout(() => fetchLogs(), 200);
+	    });
             $('#btn-clear').on('click', function() {
                 $('#filter-sender').val('');
                 $('#filter-type').val('');

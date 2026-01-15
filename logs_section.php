@@ -15,20 +15,20 @@
         $db = dbConnect();
 	
 	$filterout = "";
-	if (!isset($_REQUEST["watchdog"])) $filterout = " AND sender NOT LIKE '%watchdog'" ;
+	//if (!isset($_REQUEST["watchdog"])) $filterout = " AND sender NOT LIKE '%watchdog'" ;
 
         $logs = [];
         if (isset($_REQUEST["sender"]) && isset($_REQUEST["type"])) {
-            $stmt = $db->prepare("SELECT * FROM bix_logs WHERE sender = :sender AND type = :type$filterout ORDER BY timestamp DESC LIMIT 200;");
-            $stmt->execute(['sender' => htmlspecialchars($_REQUEST["sender"]), 'type' => htmlspecialchars($_REQUEST["type"])]);
+            $stmt = $db->prepare("SELECT * FROM bix_logs WHERE sender LIKE :sender AND type = :type$filterout ORDER BY timestamp DESC LIMIT 200;");
+            $stmt->execute(['sender' => '%' . htmlspecialchars($_REQUEST["sender"]) . '%', 'type' => htmlspecialchars($_REQUEST["type"])]);
             $logs = $stmt->fetchAll();
         } else if (isset($_REQUEST["type"])) {
             $stmt = $db->prepare("SELECT * FROM bix_logs WHERE type = :type$filterout ORDER BY timestamp DESC LIMIT 200;");
             $stmt->execute(['type' => htmlspecialchars($_REQUEST["type"])]);
             $logs = $stmt->fetchAll();
         } else if (isset($_REQUEST["sender"])) {
-            $stmt = $db->prepare("SELECT * FROM bix_logs WHERE sender = :sender$filterout ORDER BY timestamp DESC LIMIT 200;");
-            $stmt->execute(['sender' => htmlspecialchars($_REQUEST["sender"])]);
+            $stmt = $db->prepare("SELECT * FROM bix_logs WHERE sender LIKE :sender$filterout ORDER BY timestamp DESC LIMIT 200;");
+            $stmt->execute(['sender' => '%' . htmlspecialchars($_REQUEST["sender"]) . '%']);
             $logs = $stmt->fetchAll();
         } else {
 	    $stmt = $db->prepare('SELECT * FROM bix_logs ORDER BY timestamp DESC LIMIT 200;');
@@ -40,7 +40,7 @@
         foreach ($logs as $_log_index => $log) {
             if ($log['type'] > 3) continue;
 
-	    if (!isset($_REQUEST["watchdog"]) && str_ends_with(htmlspecialchars($log["sender"]),"watchdog")) continue;
+	    //if (!isset($_REQUEST["watchdog"]) && str_ends_with(htmlspecialchars($log["sender"]),"watchdog")) continue;
 
             $logType = ($log['type'] == 0) ? 'error' : (($log['type'] == 1) ? 'warning' : (($log['type'] == 2) ? 'trace' : 'debug'));
             // $logType = ($log['type'] == 0) ? 'error' : (($log['type'] == 1) ? 'warning' : (($log['type'] == 2) ? 'trace' : 'debug'));
