@@ -37,6 +37,20 @@ $insert->execute([
     ]])
 );
 
+header("Location: ./ok");
+exit;
+
+
+@file_get_contents(
+    "http://127.0.0.1:6442/push",
+    false,
+    stream_context_create(['http' => [
+        'method' => 'POST',
+        'header' => "Content-Type: text/plain\r\n",
+        'content' => "bix/car_wristband:new fall"
+    ]])
+);
+
 @file_get_contents(
     "http://127.0.0.1:6442/push",
     false,
