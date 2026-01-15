@@ -12,6 +12,7 @@
 
     <link rel="icon" type="image/x-icon" href="./favicon.png">
     <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="progress.css">
     <!-- <link rel="stylesheet" href="index.css"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
@@ -141,6 +142,7 @@
             <span>Connected</span>
         </div>
     <?php } ?>
+    <div id="scenario-progress"></div>
 
     <script>
         <?php if (isset($_SESSION["connected"]) && $_SESSION["connected"] == true) { ?>
@@ -155,7 +157,15 @@
             DENY = "deny";
         <?php } ?>
     </script>
+    <script src="progress.js"></script>
     <script src="dashboard.js"></script>
+    <script>
+        const sample = "[{'step':'Start','icon':'🚀'},{'transition':'loading next'},{'step':'Middle','icon':'🔧'},{'transition':'finalizing'},{'step':'End','icon':'🏁'}]";
+        loadScenario(sample);
+
+        // document.getElementById('step-Start').classList.add('inprogress');
+        // document.getElementById('step-Start').classList.remove('inprogress'); document.getElementById('step-Start').classList.add('done');
+    </script>
 </body>
 
 </html>
