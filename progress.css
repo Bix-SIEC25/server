@@ -1,0 +1,169 @@
+#scenario-progress {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20px;
+  z-index: 9999;
+  pointer-events: auto;
+  padding: 6px;
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px rgba(10, 20, 30, 0.15);
+  background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(245,245,250,0.7));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 95vw;
+}
+
+/* inner flex container */
+#scenario-progress .sp-inner {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 6px 10px;
+}
+
+/* Step circle */
+.sp-step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sp-step-circle {
+  width: 72px;
+  height: 72px;
+  min-width: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: 0 6px 18px rgba(12,18,30,0.08);
+  background: linear-gradient(180deg, #ffffff, #f7f9fc);
+  border: 1px solid rgba(20,30,40,0.06);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  text-align: center;
+  padding: 6px;
+  transition: transform .28s ease, box-shadow .28s ease, background .28s ease;
+  cursor: default;
+}
+
+/* icon and label inside step */
+.sp-icon {
+  font-size: 20px;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.sp-step-label {
+  font-size: 12px;
+  line-height: 1.1;
+  font-weight: 600;
+  color: #1b2430;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 64px;
+}
+
+/* Transition bar */
+.sp-transition {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+}
+.sp-transition-bar {
+  position: relative;
+  width: 100%;
+  height: 14px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(200,210,230,0.8), rgba(220,230,245,0.8));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+}
+.sp-transition-label {
+  position: absolute;
+  top: -18px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transform: translateY(0);
+  color: #2b3a4a;
+}
+
+/* DIFFERENT states: .inprogress and .done will be added to the elements later */
+/* Step in progress */
+.sp-step.inprogress .sp-step-circle,
+.sp-step.step.inprogress .sp-step-circle {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(40,120,255,0.18);
+  background: linear-gradient(180deg, #f0f7ff, #e9f2ff);
+  border: 1px solid rgba(40,120,255,0.22);
+}
+
+/* Step done */
+.sp-step.done .sp-step-circle,
+.sp-step.step.done .sp-step-circle {
+  transform: none;
+  background: linear-gradient(180deg, #eafbe9, #ddf4df);
+  border: 1px solid rgba(20,150,60,0.12);
+  color: #0b3a1f;
+  box-shadow: 0 6px 18px rgba(8,40,20,0.06);
+}
+
+/* Transition in progress */
+.sp-transition.inprogress .sp-transition-bar,
+.sp-transition.transition.inprogress .sp-transition-bar {
+  background: linear-gradient(90deg, rgba(100,150,255,0.95), rgba(180,210,255,0.95));
+  box-shadow: 0 8px 18px rgba(50,110,255,0.12);
+}
+.sp-transition.inprogress .sp-transition-label {
+  color: #05307a;
+}
+
+/* Transition done */
+.sp-transition.done .sp-transition-bar,
+.sp-transition.transition.done .sp-transition-bar {
+  background: linear-gradient(90deg, rgba(150,220,150,0.95), rgba(210,245,210,0.95));
+}
+.sp-transition.done .sp-transition-label {
+  color: #0b3a1f;
+}
+
+/* small screens / portrait: switch to vertical layout and reposition */
+@media (orientation: portrait), (max-width: 700px) {
+  #scenario-progress {
+    left: auto;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px;
+    border-radius: 12px;
+  }
+  #scenario-progress .sp-inner {
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+    padding: 10px;
+  }
+  .sp-transition-bar {
+    width: 14px;
+    height: 64px;
+    border-radius: 12px;
+  }
+  .sp-transition-label {
+    position: absolute;
+    display: none;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: left center;
+    font-size: 12px;
+  }
+  .sp-step-circle { width: 64px; height: 64px; min-width: 64px; }
+}

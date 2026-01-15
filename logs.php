@@ -26,7 +26,7 @@
             <div class="controls">
                 <div class="group">
                     <label class="meta">Sender</label>
-                    <input type="text" id="filter-sender" placeholder="e.g. my-service">
+                    <input type="text" id="filter-sender" placeholder="e.g. QRNode">
                 </div>
                 <div class="group">
                     <label class="meta">Level</label>

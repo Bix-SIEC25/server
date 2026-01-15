@@ -61,6 +61,8 @@ loadFalls();
 let socket;
 let tries = 0;
 
+let scenario = [];
+
 const connect = function () {
     return new Promise((resolve, reject) => {
         const socketUrl = `wss://magictintin.fr/ws`;
@@ -100,7 +102,10 @@ const connect = function () {
                 loadResidentCard("");
                 document.getElementById('fall-visual-content').innerHTML = '<div class="no-data">No fall to display</div>';
             } else if (data.startsWith("setScenario:")) {
-
+                parts = data.split(":");
+                parts.shift();
+                if (parts.length == 0) return;
+                scenario = JSON.parse(parts.join(":").trim());
             }
         }
 

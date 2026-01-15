@@ -791,4 +791,5 @@ footer {
     color: var(--primary-500);
     border: solid 2px var(--primary-500);
     box-shadow: #000A 2px 2px 1px 1px;
+    z-index: 1000;
 }
