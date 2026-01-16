@@ -1,3 +1,14 @@
+
+
+// create an id name from name
+function makeId(name, prefix = '') {
+    if (!name && name !== 0) return prefix + Math.random().toString(36).slice(2, 8);
+    return prefix + String(name)
+        .replace(/\s+/g, '')
+        .replace(/[^A-Za-z0-9_-]/g, '')
+        .slice(0, 60) || (prefix + 'item'); // cap length
+}
+
 function loadScenario(input) {
     const container = document.getElementById('scenario-progress');
     if (!container) {
@@ -13,13 +24,10 @@ function loadScenario(input) {
         try {
             return JSON.parse(strOrObj);
         } catch (e) {
-            // fallback: attempt to convert single-quoted object syntax to JSON-ish
-            // NOTE: this is a best-effort fallback for user-provided pseudo-JSON like "[{'step':'a'}]".
+            // try some fallback
             try {
                 const fixed = strOrObj
-                    // replace single quotes around keys/values with double quotes (best-effort)
                     .replace(/'([^']*?)'/g, function (_, inner) {
-                        // Escape any existing double quotes inside inner
                         return '"' + inner.replace(/"/g, '\\"') + '"';
                     });
                 return JSON.parse(fixed);
@@ -40,20 +48,13 @@ function loadScenario(input) {
             .replace(/'/g, '&#39;');
     }
 
-    // Make an ID from a name: remove spaces and non-alphanumeric (keep - and _)
-    function makeId(name, prefix = '') {
-        if (!name && name !== 0) return prefix + Math.random().toString(36).slice(2, 8);
-        return prefix + String(name)
-            .replace(/\s+/g, '')
-            .replace(/[^A-Za-z0-9_-]/g, '')
-            .slice(0, 60) || (prefix + 'item'); // cap length
-    }
-
     const parsed = tolerantParse(input);
     if (!Array.isArray(parsed)) {
         console.error('loadScenario: parsed input is not an array.');
         return;
     }
+
+    scenario = parsed;
 
     // Build safe HTML string
     let parts = [];
@@ -104,4 +105,9 @@ function loadScenario(input) {
 
     // Write innerHTML once (escaped content)
     container.innerHTML = parts.join('');
+
+    for (const number in scenario) {
+        const state = scenario[number];
+        scenario[number]["state"] = "todo";
+    }
 }

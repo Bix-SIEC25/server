@@ -108,6 +108,27 @@ const connect = function () {
                 scenario = JSON.parse(parts.join(":").trim());
                 
                 loadScenario(scenario);
+                
+            } else if (data.startsWith("markStep:")) {
+                parts = data.split(":");
+                parts.shift();
+                if (parts.length == 0) return;
+                const step = parts.join(":").trim();
+
+                for (const number in scenario) {
+                    const state = scenario[number];
+                    scenario[number]["state"]="todo";
+
+                    if (state.step && state.step == step) {
+
+                    }
+                }
+                
+                // for (const state of scenario) {
+                //     if (state.step && state.step == step) {
+
+                //     }
+                // }
             }
         }
 

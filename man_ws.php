@@ -6,8 +6,8 @@ if (!isset($_SESSION["connected"]) || $_SESSION["connected"] != true) {
     die();
 }
 
-$groups = ["wristband", "goto", "fall_alert", "logs", "admin", "img", "car_wristband", "setScenario"];
-$known_messages = ["ping", "new fall", "fallconfirmed", "falldenied", "new log", "visu_fall|", "newimg", "stopgoto", "tts>", "goto", "goto7.65|-1.15", "goto13.3|3.04", "horn", "new vitals"];
+$groups = ["wristband", "goto", "fall_alert", "logs", "admin", "img", "car_wristband"];
+$known_messages = ["ping", "new fall", "fallconfirmed", "falldenied", "new log", "visu_fall|", "newimg", "stopgoto", "tts>", "goto", "goto7.65|-1.15", "goto13.3|3.04", "horn", "new vitals", "markStep:", "setScenario:"];
 
 
 if (!isset($_SESSION['history'])) {

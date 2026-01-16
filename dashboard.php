@@ -160,10 +160,10 @@
     <script src="progress.js"></script>
     <script src="dashboard.js"></script>
     <script>
-        const sample = "[{'step':'Start','icon':'🚀'},{'transition':'loading next'},{'step':'Middle','icon':'🔧'},{'transition':'finalizing'},{'step':'End','icon':'🏁'}]";
+        const sample = '[{"transition":"waiting for scenario", "icon":"🕑"}]';// '[{"step":"Start","icon":"🚀"},{"transition":"loading next"},{"step":"Middle","icon":"🔧"},{"transition":"finalizing"},{"step":"End","icon":"🏁"}]';
         loadScenario(sample);
 
-        // setScenario:[{'step':'Begin','icon':'🚀'},{'transition':'starting'},{'step':'En cours','icon':'🔧'},{'transition':'ending'},{'step':'final','icon':'🏁'}]
+        // setScenario:[{"step":"Begin","icon":"🚀"},{"transition":"starting"},{"step":"En cours","icon":"🔧"},{"transition":"ending"},{"step":"final","icon":"🏁"}]
         // document.getElementById('step-Start').classList.add('inprogress');
         // document.getElementById('step-Start').classList.remove('inprogress'); document.getElementById('step-Start').classList.add('done');
     </script>
