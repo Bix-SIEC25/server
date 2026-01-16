@@ -1,10 +1,13 @@
 <?php
 session_start();
 
-// exit;
+if (!isset($_SESSION["connected"]) || $_SESSION["connected"] != true) {
+    http_response_code(404);
+    die();
+}
 
-$groups = ["wristband", "goto", "fall_alert", "logs", "admin", "img", "setScenario"];
-$known_messages = ["ping", "new fall", "new log", "visu_fall|", "newimg", "stopgoto", "tts>", "goto", "goto7.65|-1.15", "goto13.3|3.04", "horn", "new vitals"];
+$groups = ["wristband", "goto", "fall_alert", "logs", "admin", "img", "car_wristband", "setScenario"];
+$known_messages = ["ping", "new fall", "fallconfirmed", "falldenied", "new log", "visu_fall|", "newimg", "stopgoto", "tts>", "goto", "goto7.65|-1.15", "goto13.3|3.04", "horn", "new vitals"];
 
 
 if (!isset($_SESSION['history'])) {
@@ -16,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $_POST['message'] ?? '';
 
     if ($group !== '' && $message !== '') {
-        $payload = 'bix/' . htmlspecialchars($group) . ':' . htmlspecialchars($message);
+        // $payload = 'bix/' . htmlspecialchars($group) . ':' . htmlspecialchars($message);
+        $payload = 'bix/' . $group . ':' . $message;
 
         @file_get_contents(
             'http://127.0.0.1:6442/push',

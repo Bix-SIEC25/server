@@ -106,6 +106,8 @@ const connect = function () {
                 parts.shift();
                 if (parts.length == 0) return;
                 scenario = JSON.parse(parts.join(":").trim());
+                
+                loadScenario(scenario);
             }
         }
 
