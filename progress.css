@@ -116,6 +116,15 @@
   box-shadow: 0 6px 18px rgba(8,40,20,0.06);
 }
 
+.sp-step.notdone .sp-step-circle,
+.sp-step.step.notdone .sp-step-circle {
+  transform: none;
+  background: linear-gradient(180deg, #fbe9e9, #f4dddd);
+  border: 1px solid rgba(150, 20, 20, 0.12);
+  color: #3a0b0b;
+  box-shadow: 0 6px 18px rgba(40, 8, 8, 0.06);
+}
+
 /* Transition in progress */
 .sp-transition.inprogress .sp-transition-bar,
 .sp-transition.transition.inprogress .sp-transition-bar {

@@ -115,14 +115,7 @@ const connect = function () {
                 if (parts.length == 0) return;
                 const step = parts.join(":").trim();
 
-                for (const number in scenario) {
-                    const state = scenario[number];
-                    scenario[number]["state"]="todo";
-
-                    if (state.step && state.step == step) {
-
-                    }
-                }
+                markStep(step);
                 
                 // for (const state of scenario) {
                 //     if (state.step && state.step == step) {

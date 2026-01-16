@@ -162,7 +162,7 @@
     <script>
         const sample = '[{"transition":"waiting for scenario", "icon":"🕑"}]';// '[{"step":"Start","icon":"🚀"},{"transition":"loading next"},{"step":"Middle","icon":"🔧"},{"transition":"finalizing"},{"step":"End","icon":"🏁"}]';
         loadScenario(sample);
-
+        // setScenario:[{"step":"1"},{"transition":"1->2"},{"step":"2"},{"transition":"2->3"},{"step":"3"},{"transition":"3->4"},{"step":"4"},{"transition":"4->5"},{"step":"5"}]
         // setScenario:[{"step":"Begin","icon":"🚀"},{"transition":"starting"},{"step":"En cours","icon":"🔧"},{"transition":"ending"},{"step":"final","icon":"🏁"}]
         // document.getElementById('step-Start').classList.add('inprogress');
         // document.getElementById('step-Start').classList.remove('inprogress'); document.getElementById('step-Start').classList.add('done');

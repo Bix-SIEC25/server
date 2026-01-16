@@ -7,7 +7,26 @@ if (!isset($_SESSION["connected"]) || $_SESSION["connected"] != true) {
 }
 
 $groups = ["wristband", "goto", "fall_alert", "logs", "admin", "img", "car_wristband"];
-$known_messages = ["ping", "new fall", "fallconfirmed", "falldenied", "new log", "visu_fall|", "newimg", "stopgoto", "tts>", "goto", "goto7.65|-1.15", "goto13.3|3.04", "horn", "new vitals", "markStep:", "setScenario:"];
+$known_messages = [
+    "ping",
+    "new fall",
+    "fallconfirmed",
+    "falldenied",
+    "new log",
+    "visu_fall|",
+    "newimg",
+    "stopgoto",
+    "tts>",
+    "goto",
+    "goto7.65|-1.15",
+    "goto13.3|3.04",
+    "horn",
+    "new vitals",
+    "markStep:",
+    "setScenario:",
+    "setScenario:[{\"step\":\"1\"},{\"transition\":\"1->2\"},{\"step\":\"2\"},{\"transition\":\"2->3\"},{\"step\":\"3\"},{\"transition\":\"3->4\"},{\"step\":\"4\"},{\"transition\":\"4->5\"},{\"step\":\"5\"}]",
+    "markStep:"
+];
 
 
 if (!isset($_SESSION['history'])) {
