@@ -110,7 +110,7 @@
 .sp-step.done .sp-step-circle,
 .sp-step.step.done .sp-step-circle {
   transform: none;
-  background: linear-gradient(180deg, #eafbe9, #ddf4df);
+  background: linear-gradient(180deg, #34c974, #43c37a);
   border: 1px solid rgba(20,150,60,0.12);
   color: #0b3a1f;
   box-shadow: 0 6px 18px rgba(8,40,20,0.06);
@@ -119,7 +119,7 @@
 .sp-step.notdone .sp-step-circle,
 .sp-step.step.notdone .sp-step-circle {
   transform: none;
-  background: linear-gradient(180deg, #fbe9e9, #f4dddd);
+  background: linear-gradient(180deg, #e15c5c, #ec3d3d);
   border: 1px solid rgba(150, 20, 20, 0.12);
   color: #3a0b0b;
   box-shadow: 0 6px 18px rgba(40, 8, 8, 0.06);
@@ -138,7 +138,7 @@
 /* Transition done */
 .sp-transition.done .sp-transition-bar,
 .sp-transition.transition.done .sp-transition-bar {
-  background: linear-gradient(90deg, rgba(150,220,150,0.95), rgba(210,245,210,0.95));
+  background: linear-gradient(90deg, #0b3a1f, #2ac86f);
 }
 .sp-transition.done .sp-transition-label {
   color: #0b3a1f;
@@ -147,11 +147,15 @@
 /* small screens / portrait: switch to vertical layout and reposition */
 @media (orientation: portrait), (max-width: 700px) {
   #scenario-progress {
-    left: auto;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 8px;
+    max-height: 95vh;
+    width: 84px;
+    left: calc(100vw - 104px);
+    right: 15px;
+    bottom: 5px;
+    /* top: 50%; */
+    /* transform: translateY(-50%); */
+    transform: translate(0);
+    padding: 5px;
     border-radius: 12px;
   }
   #scenario-progress .sp-inner {
