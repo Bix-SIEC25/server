@@ -73,6 +73,7 @@ const connect = function () {
             sendMsg("ping");
             sendMsgChan("img");
             sendMsgChan("admin");
+            sendMsgChan("goto");
         }
 
         socket.onmessage = (event) => {

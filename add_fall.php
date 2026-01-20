@@ -7,6 +7,7 @@ if (!isset($_REQUEST["devid"]) || !isset($_REQUEST["mag"]) || !isset($_REQUEST["
 
 include_once("../insa_db.php");
 $db = dbConnect();
+include_once("scenario_mark.php");
 
 $sqlQuery = 'INSERT INTO fall_alerts(device_id, jerkmagnitude, zone) VALUES (:dev, :mag, :zone)';
 
@@ -16,6 +17,14 @@ $insert->execute([
     'mag' => htmlspecialchars($_REQUEST["mag"]),
     'zone' => htmlspecialchars($_REQUEST["zone"])
 ]);
+
+$positions = [
+    // "13.3|3.04|0.696",
+    "13.3|3.04|0.696",
+    "13.3|3.04|0.696",
+    "13.3|3.04|0.696",
+    "13.3|3.04|0.696"
+];
 
 @file_get_contents(
     "http://127.0.0.1:6442/push",
@@ -37,8 +46,8 @@ $insert->execute([
     ]])
 );
 
-header("Location: ./ok");
-exit;
+// header("Location: ./ok");
+// exit;
 
 
 @file_get_contents(
@@ -58,7 +67,7 @@ exit;
         'method' => 'POST',
         'header' => "Content-Type: text/plain\r\n",
 	//'content' => "bix/goto:goto7.65|-1.15"
-	'content' => "bix/goto:goto13.3|3.04"
+	'content' => "bix/goto:goto" . $positions[$_REQUEST["zone"] - 1]
     ]])
 );
 
