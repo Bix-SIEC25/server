@@ -122,6 +122,12 @@ function markStep(step) {
 
         if (state.step) {
             if (state.step == step) {
+                if (document.getElementById(makeId(step,"step-")).classList.contains("notdone")) {
+                    document.getElementById(makeId(step,"step-")).classList.remove("notdone");
+                    document.getElementById(makeId(step,"step-")).classList.add('done');
+                    scenario[number]["state"] = "done";
+                    return;
+                }
                 if (document.getElementById(makeId(step,"step-")).classList.contains("inprogress"))
                     document.getElementById(makeId(step,"step-")).classList.remove("inprogress");
                 if (document.getElementById(makeId(step,"step-")).classList.contains("next"))
