@@ -93,7 +93,8 @@ function markStep(array &$scenario, string $step): void
                     // isset($scenario[$number]['state']) && 
                     $scenario[$number]['state'] === 'next'
                 ) {
-                    $scenario[$number]['state'] = 'done';
+                    $scenario[$number]['state'] = 'notdone';
+                    // $scenario[$number]['state'] = 'done';
                 } else {
                     $scenario[$number]['state'] = 'notdone';
                 }
