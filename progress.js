@@ -105,61 +105,78 @@ function loadScenario(input) {
 
     // Write innerHTML once (escaped content)
     container.innerHTML = parts.join('');
-
+    let previous = '';
     for (const number in scenario) {
         const state = scenario[number];
-        if (number == 0)
-            scenario[number]["state"] = "next";
-        else
-            scenario[number]["state"] = "todo";
+        if (!Object.hasOwn(scenario[number], "state")) continue;
+        if (scenario[number]["state"]) {
+            if (state.step) {
+                if (scenario[number]["state"] == "todo")
+                    document.getElementById(makeId(state.step, "step-")).classList.add('todo');
+                if (scenario[number]["state"] == "next")
+                    document.getElementById(makeId(state.step, "step-")).classList.add('next');
+                if (scenario[number]["state"] == "notdone")
+                    document.getElementById(makeId(state.step, "step-")).classList.add('notdone');
+                if (scenario[number]["state"] == "done")
+                    document.getElementById(makeId(state.step, "step-")).classList.add('done');
+            } else {
+                if (scenario[number]["state"] == "done")
+                    document.getElementById(makeId(state.transition, "trans-")).classList.add('done');
+            }
+        } else {
+            if (number == 0)
+                scenario[number]["state"] = "next";
+            else
+                scenario[number]["state"] = "todo";
+        }
     }
 }
 
 function markStep(step) {
-    if (!document.getElementById(makeId(step,"step-"))) return console.error(`${step} doesn't exist!`);
+    if (!document.getElementById(makeId(step, "step-"))) return console.error(`${step} doesn't exist!`);
     for (let number = 0; number < scenario.length; number++) {
         const state = scenario[number];
 
         if (state.step) {
             if (state.step == step) {
-                if (document.getElementById(makeId(step,"step-")).classList.contains("notdone")) {
-                    document.getElementById(makeId(step,"step-")).classList.remove("notdone");
-                    document.getElementById(makeId(step,"step-")).classList.add('done');
+                if (document.getElementById(makeId(step, "step-")).classList.contains("notdone")) {
+                    document.getElementById(makeId(step, "step-")).classList.remove("notdone");
+                    document.getElementById(makeId(step, "step-")).classList.add('done');
                     scenario[number]["state"] = "done";
                     return;
                 }
-                if (document.getElementById(makeId(step,"step-")).classList.contains("inprogress"))
-                    document.getElementById(makeId(step,"step-")).classList.remove("inprogress");
-                if (document.getElementById(makeId(step,"step-")).classList.contains("next"))
-                    document.getElementById(makeId(step,"step-")).classList.remove("next");
-                document.getElementById(makeId(step,"step-")).classList.add('done');
+                if (document.getElementById(makeId(step, "step-")).classList.contains("inprogress"))
+                    document.getElementById(makeId(step, "step-")).classList.remove("inprogress");
+                if (document.getElementById(makeId(step, "step-")).classList.contains("next"))
+                    document.getElementById(makeId(step, "step-")).classList.remove("next");
+                document.getElementById(makeId(step, "step-")).classList.add('done');
                 scenario[number]["state"] = "done";
 
                 // if there are more steps
                 if (scenario.length > number + 2) {
-                    scenario[number+1]["state"] = "inprogress";
-                    scenario[number+2]["state"] = "next";
-                    if (document.getElementById(makeId(scenario[number+1].step,"trans-")))
-                        document.getElementById(makeId(scenario[number+1].step,"trans-")).classList.add("inprogress");
-                    if (document.getElementById(makeId(scenario[number+2].step,"step-")))
-                        document.getElementById(makeId(scenario[number+2].step,"step-")).classList.add("next");
+                    scenario[number + 1]["state"] = "inprogress";
+                    scenario[number + 2]["state"] = "next";
+                    if (document.getElementById(makeId(scenario[number + 1].step, "trans-")))
+                        document.getElementById(makeId(scenario[number + 1].step, "trans-")).classList.add("inprogress");
+                    if (document.getElementById(makeId(scenario[number + 2].step, "step-")))
+                        document.getElementById(makeId(scenario[number + 2].step, "step-")).classList.add("next");
                 }
                 return;
             } else {
-                if (document.getElementById(makeId(state.step,"step-")).classList.contains("done") || document.getElementById(makeId(state.step,"step-")).classList.contains("notdone")) continue;
-                else if (document.getElementById(makeId(state.step,"step-")).classList.contains("next")) {
-                    document.getElementById(makeId(state.step,"step-")).classList.remove("next");
-                    document.getElementById(makeId(state.step,"step-")).classList.add('done');
+                if (document.getElementById(makeId(state.step, "step-")).classList.contains("done") || document.getElementById(makeId(state.step, "step-")).classList.contains("notdone")) continue;
+                else if (document.getElementById(makeId(state.step, "step-")).classList.contains("next")) {
+                    document.getElementById(makeId(state.step, "step-")).classList.remove("next");
+                    document.getElementById(makeId(state.step, "step-")).classList.add('done');
                     scenario[number]["state"] = "done";
                 } else {
-                    document.getElementById(makeId(state.step,"step-")).classList.add('notdone');
+                    document.getElementById(makeId(state.step, "step-")).classList.add('notdone');
                     scenario[number]["state"] = "notdone";
                 }
             }
         } else if (state.transition) {
-            if (document.getElementById(makeId(state.transition,"trans-")).classList.contains("inprogress"))
-                document.getElementById(makeId(state.transition,"trans-")).classList.remove("inprogress");
-            document.getElementById(makeId(state.transition,"trans-")).classList.add('done');
+            if (document.getElementById(makeId(state.transition, "trans-")).classList.contains("inprogress"))
+                document.getElementById(makeId(state.transition, "trans-")).classList.remove("inprogress");
+            document.getElementById(makeId(state.transition, "trans-")).classList.add('done');
             scenario[number]["state"] = "done";
         }
     }

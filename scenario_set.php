@@ -8,8 +8,18 @@ if (!isset($_REQUEST["m"]) && !isset($_REQUEST["s"], $_REQUEST["name"])) {
 // set scenario case
 if (isset($_REQUEST["s"], $_REQUEST["name"])) {
 
-    $s = htmlspecialchars($_REQUEST["s"]);
+    $s = urldecode($_REQUEST["s"]);
     $name = htmlspecialchars($_REQUEST["name"]);
+
+    $scenario = json_decode($s, true);
+    foreach ($scenario as $index => $state) {
+        if ($index == 0) {
+            $scenario[$index]['state'] = 'next';
+        } else {
+            $scenario[$index]['state'] = 'todo';
+        }
+    }
+    $s = json_encode($scenario);
 
     include_once("../insa_db.php");
     $db = dbConnect();

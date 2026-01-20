@@ -1,4 +1,14 @@
-<?php session_start(); ?>
+<?php session_start();
+
+include_once("../insa_db.php");
+$db = dbConnect();
+$stmt = $db->prepare("SELECT scenario, scenario_name FROM bix_state");
+$stmt->execute([]);
+$res = $stmt->fetchAll();
+$scenar_txt = '[{"transition":"waiting for scenario", "icon":"🕑"}]';
+if (sizeof($res) == 1) $scenar_txt = $res[0]["scenario"];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +17,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Bix - EHPAD Patrol - Demo Dashboard</title>
 
-    <!-- Google Fonts (match index) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <link rel="icon" type="image/x-icon" href="./favicon.png">
@@ -18,27 +27,21 @@
 </head>
 
 <body>
-    <!-- Decorative floating/background squares (non-interactive) -->
     <div class="bg-decor" aria-hidden="true">
-        <!-- top-left cluster -->
         <div class="sq sq--tl-1 fC"></div>
         <div class="sq sq--tl-2 fA"></div>
         <div class="sq sq--tl-3 outline fB"></div>
 
-        <!-- left mid -->
         <div class="sq sq--l-1 fA"></div>
         <div class="sq sq--l-2 outline fC"></div>
 
-        <!-- right cluster -->
         <div class="sq sq--r-1 fB"></div>
         <div class="sq sq--r-2 outline fA"></div>
         <div class="sq sq--r-3 fC"></div>
 
-        <!-- bottom -->
         <div class="sq sq--b-1 fB"></div>
         <div class="sq sq--b-2 outline fA"></div>
 
-        <!-- scattered -->
         <div class="sq sq--s-1 fC"></div>
         <div class="sq sq--s-2 outline fB"></div>
     </div>
@@ -107,10 +110,6 @@
                             </select>
                             <button class="refresh-btn" onclick="loadAllData()">Refresh All</button>
                         </div>
-
-                        <!-- <div class="small muted" style="margin-top:8px">
-                        Trusted by caregivers - focused on reliability, privacy and human-centered design.
-                    </div> -->
                     </div>
 
                     <div class="card" id="falls-card">
@@ -160,8 +159,13 @@
     <script src="progress.js"></script>
     <script src="dashboard.js"></script>
     <script>
-        const sample = '[{"transition":"waiting for scenario", "icon":"🕑"}]';// '[{"step":"Start","icon":"🚀"},{"transition":"loading next"},{"step":"Middle","icon":"🔧"},{"transition":"finalizing"},{"step":"End","icon":"🏁"}]';
-        loadScenario(sample);
+        const sample = '[{"transition":"waiting for scenario", "icon":"🕑"}]'; // '[{"step":"Start","icon":"🚀"},{"transition":"loading next"},{"step":"Middle","icon":"🔧"},{"transition":"finalizing"},{"step":"End","icon":"🏁"}]';
+        scenario = '<?php echo $scenar_txt?>';
+        // loadScenario(sample);
+        loadScenario(scenario);
+
+        // http://localhost/bix/scenario_set?name=first&s=[{"step":"1"},{"transition":"1->2"},{"step":"2"},{"transition":"2->3"},{"step":"3"},{"transition":"3->4"},{"step":"4"},{"transition":"4->5"},{"step":"5"}]
+        // http://localhost/bix/add_mark?m=1
         // setScenario:[{"step":"1"},{"transition":"1->2"},{"step":"2"},{"transition":"2->3"},{"step":"3"},{"transition":"3->4"},{"step":"4"},{"transition":"4->5"},{"step":"5"}]
         // setScenario:[{"step":"Begin","icon":"🚀"},{"transition":"starting"},{"step":"En cours","icon":"🔧"},{"transition":"ending"},{"step":"final","icon":"🏁"}]
         // document.getElementById('step-Start').classList.add('inprogress');
