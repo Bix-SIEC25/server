@@ -7,6 +7,7 @@ if (!isset($_REQUEST["sender"]) || !isset($_REQUEST["type"]) || !isset($_REQUEST
 
 include_once("../insa_db.php");
 $db = dbConnect();
+include_once("scenario_mark.php");
 
 $sqlQuery = 'INSERT INTO bix_logs(sender, type, message) VALUES (:sender, :type, :msg)';
 

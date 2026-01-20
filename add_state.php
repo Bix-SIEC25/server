@@ -27,23 +27,26 @@ $fall_ia = htmlspecialchars($_REQUEST["fall_ia"]);
 $mov_car = htmlspecialchars($_REQUEST["mov_car"]);
 $wait_image_verif = htmlspecialchars($_REQUEST["wait_image_verif"]);
 
-// echo "Received: " .
-//     "<br>x=" . $x .
-//     "<br>y=" . $y .
-//     "<br>dir=" . $dir .
-//     "<br>wait_car=" . $wait_car .
-//     "<br>qr=" . $qr .
-//     "<br>face=" . $face .
-//     "<br>dialog=" . $dialog .
-//     "<br>fall_ia=" . $fall_ia .
-//     "<br>mov_car=" . $mov_car .
-//     "<br>wait_image_verif=" . $wait_image_verif;
+echo "Received: " .
+    "<br>x=" . $x .
+    "<br>y=" . $y .
+    "<br>dir=" . $dir .
+    "<br>wait_car=" . $wait_car .
+    "<br>qr=" . $qr .
+    "<br>face=" . $face .
+    "<br>dialog=" . $dialog .
+    "<br>fall_ia=" . $fall_ia .
+    "<br>mov_car=" . $mov_car .
+    "<br>wait_image_verif=" . $wait_image_verif;
 
 // https://bix.ovh/add_state.php?x=4&y=2&dir=1.5&wait_car=1&qr=0&face=0&dialog=0&fall_ia=0&mov_car=0&wait_image_verif=0
 // POST request supported too
 
 include_once("../insa_db.php");
 $db = dbConnect();
+include_once("scenario_mark.php");
+
+
 $updateQuery = "UPDATE `bix_state` 
     SET
         `x`=:x,
