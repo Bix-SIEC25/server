@@ -166,8 +166,10 @@ function markStep(step) {
                 if (document.getElementById(makeId(state.step, "step-")).classList.contains("done") || document.getElementById(makeId(state.step, "step-")).classList.contains("notdone")) continue;
                 else if (document.getElementById(makeId(state.step, "step-")).classList.contains("next")) {
                     document.getElementById(makeId(state.step, "step-")).classList.remove("next");
-                    document.getElementById(makeId(state.step, "step-")).classList.add('done');
-                    scenario[number]["state"] = "done";
+                    // document.getElementById(makeId(state.step, "step-")).classList.add('done');
+                    // scenario[number]["state"] = "done";
+                    document.getElementById(makeId(state.step, "step-")).classList.add('notdone');
+                    scenario[number]["state"] = "notdone";
                 } else {
                     document.getElementById(makeId(state.step, "step-")).classList.add('notdone');
                     scenario[number]["state"] = "notdone";
