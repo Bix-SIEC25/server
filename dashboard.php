@@ -22,6 +22,7 @@ if (sizeof($res) == 1) $scenar_txt = $res[0]["scenario"];
     <link rel="icon" type="image/x-icon" href="./favicon.png">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="progress.css">
+    <link rel="stylesheet" href="state.css">
     <!-- <link rel="stylesheet" href="index.css"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
@@ -143,6 +144,8 @@ if (sizeof($res) == 1) $scenar_txt = $res[0]["scenario"];
     <?php } ?>
     <div id="scenario-progress"></div>
 
+    <div id="robot-map-panel-root"></div>
+
     <script>
         <?php if (isset($_SESSION["connected"]) && $_SESSION["connected"] == true) { ?>
             CONN = true;
@@ -158,9 +161,10 @@ if (sizeof($res) == 1) $scenar_txt = $res[0]["scenario"];
     </script>
     <script src="progress.js"></script>
     <script src="dashboard.js"></script>
+    <script src="state.js"></script>
     <script>
         const sample = '[{"transition":"waiting for scenario", "icon":"🕑"}]'; // '[{"step":"Start","icon":"🚀"},{"transition":"loading next"},{"step":"Middle","icon":"🔧"},{"transition":"finalizing"},{"step":"End","icon":"🏁"}]';
-        scenario = '<?php echo $scenar_txt?>';
+        scenario = '<?php echo $scenar_txt ?>';
         // loadScenario(sample);
         loadScenario(scenario);
 

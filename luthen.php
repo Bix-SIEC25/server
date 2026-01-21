@@ -23,8 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $_POST['message'] ?? '';
 
     if ($group !== '' && $message !== '') {
-        // $payload = 'bix/' . htmlspecialchars($group) . ':' . htmlspecialchars($message);
-        $payload = 'bix/' . $group . ':' . $message;
+        $payload = 'luthen/' . $group . ':' . $message;
 
         @file_get_contents(
             'http://127.0.0.1:6442/push',

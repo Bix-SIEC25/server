@@ -39,7 +39,8 @@ echo "Received: " .
     "<br>mov_car=" . $mov_car .
     "<br>wait_image_verif=" . $wait_image_verif;
 
-// https://bix.ovh/add_state.php?x=4&y=2&dir=1.5&wait_car=1&qr=0&face=0&dialog=0&fall_ia=0&mov_car=0&wait_image_verif=0
+// https://bix.ovh/add_state.php?x=0.35&y=-6.714&dir=-1.928&wait_car=0&qr=1&face=1&dialog=0&fall_ia=0&mov_car=0&wait_image_verif=0
+// http://localhost/bix/add_state.php?x=0&y=0&dir=0&wait_car=0&qr=1&face=1&dialog=0&fall_ia=0&mov_car=0&wait_image_verif=0
 // POST request supported too
 
 include_once("../insa_db.php");
