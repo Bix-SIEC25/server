@@ -7,6 +7,7 @@ if (!isset($_REQUEST["devid"]) || !isset($_REQUEST["mag"]) || !isset($_REQUEST["
 
 include_once("../insa_db.php");
 $db = dbConnect();
+include_once("scenario_mark.php");
 
 $sqlQuery = 'INSERT INTO fall_alerts(device_id, jerkmagnitude, zone) VALUES (:dev, :mag, :zone)';
 
@@ -16,6 +17,37 @@ $insert->execute([
     'mag' => htmlspecialchars($_REQUEST["mag"]),
     'zone' => htmlspecialchars($_REQUEST["zone"])
 ]);
+
+$positions = [
+    // "13.3|3.04|0.696",
+    // "20.56|8.54|0.696", // (proche porte sortie)
+    // "14.68|4.19|0.696",
+    // "8.58|-0.3|0.696", // zone 3
+    // "4.13|-3.58|0.696" // zone 4 (proche hall)
+    [20.56, 8.54],
+    [14.68, 4.19],
+    [8.58, -0.3],
+    [4.13, -3.58]
+
+];
+
+$stmt = $db->prepare("SELECT x, y, dir FROM bix_state");
+$stmt->execute([]);
+$res = $stmt->fetchAll();
+$dir = 0.696;
+if (sizeof($res) == 1) {
+    $cx = $res[0]["x"];
+    $cy = $res[0]["y"];
+    $tx = $positions[(int)$_REQUEST["zone"] - 1][0];
+    $ty = $positions[(int)$_REQUEST["zone"] - 1][1];
+
+    $dx = $tx - $cx;
+    $dy = $ty - $cy;
+
+    $dir = atan2($dy, $dx);
+}
+
+// echo "goto" . $positions[(int)$_REQUEST["zone"] - 1][0] . "|" . $positions[(int)$_REQUEST["zone"] - 1][1] . "|" . $dir;
 
 @file_get_contents(
     "http://127.0.0.1:6442/push",
@@ -37,8 +69,8 @@ $insert->execute([
     ]])
 );
 
-header("Location: ./ok");
-exit;
+// header("Location: ./ok");
+// exit;
 
 
 @file_get_contents(
@@ -57,8 +89,8 @@ exit;
     stream_context_create(['http' => [
         'method' => 'POST',
         'header' => "Content-Type: text/plain\r\n",
-	//'content' => "bix/goto:goto7.65|-1.15"
-	'content' => "bix/goto:goto13.3|3.04"
+        //'content' => "bix/goto:goto7.65|-1.15"
+        'content' => "bix/goto:goto" . $positions[(int)$_REQUEST["zone"] - 1][0] . "|" . $positions[(int)$_REQUEST["zone"] - 1][1] . "|" . $dir
     ]])
 );
 

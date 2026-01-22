@@ -6,26 +6,11 @@ if (!isset($_SESSION["connected"]) || $_SESSION["connected"] != true) {
     die();
 }
 
-$groups = ["wristband", "goto", "fall_alert", "logs", "admin", "img", "car_wristband"];
+$groups = ["main", "logs", "admin"];
 $known_messages = [
     "ping",
-    "new fall",
-    "fallconfirmed",
-    "falldenied",
-    "new log",
-    "visu_fall|",
-    "newimg",
-    "stopgoto",
-    "tts>",
-    "goto",
-    // "goto7.65|-1.15",
-    "8.58|-0.3|0.696",
-    "horn",
-    "new vitals",
-    "markStep:",
-    "setScenario:",
-    "setScenario:[{\"step\":\"1\"},{\"transition\":\"1->2\"},{\"step\":\"2\"},{\"transition\":\"2->3\"},{\"step\":\"3\"},{\"transition\":\"3->4\"},{\"step\":\"4\"},{\"transition\":\"4->5\"},{\"step\":\"5\"}]",
-    "markStep:"
+    "pong",
+    "test"
 ];
 
 
@@ -38,8 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $_POST['message'] ?? '';
 
     if ($group !== '' && $message !== '') {
-        // $payload = 'bix/' . htmlspecialchars($group) . ':' . htmlspecialchars($message);
-        $payload = 'bix/' . $group . ':' . $message;
+        $payload = 'luthen/' . $group . ':' . $message;
 
         @file_get_contents(
             'http://127.0.0.1:6442/push',

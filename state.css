@@ -1,0 +1,86 @@
+#robot-map-toggle {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  transform: translateY(-50%);
+  z-index: 2147483646;
+  background: #2b2b2b;
+  color: #fff;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* Panel overlay */
+#robot-map-panel {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  z-index: 2147483647;
+  width: 720px;
+  height: 520px;
+  background: rgba(255,255,255,0.98);
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  font-family: Arial, sans-serif;
+}
+
+/* Header */
+#robot-map-panel .header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+}
+#robot-map-panel .header h3 {
+  margin:0;
+  font-size:16px;
+}
+
+/* Canvas area + side info */
+#robot-map-main {
+  display:flex;
+  gap:12px;
+  flex:1;
+}
+#robot-map-canvas {
+  background:#ddd;
+  border:1px solid #aaa;
+  border-radius:4px;
+  width:560px;
+  height:440px;
+  cursor: default;
+}
+
+/* Info column */
+#robot-map-info {
+  width: 140px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  font-size:13px;
+}
+
+/* state indicator */
+.state-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+.ind-dot {
+  width:12px; height:12px; border-radius:50%;
+  background:#d6d6d6; border:1px solid #aaa;
+}
+.ind-dot.on { background:#2ea44f; box-shadow:0 0 6px rgba(46,164,79,0.4); }
+.ind-dot.off { background:#d6d6d6; }
+
+/* Controls */
+#robot-map-controls { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+button.small { padding:6px 8px; font-size:12px; cursor:pointer; }
