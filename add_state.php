@@ -47,6 +47,7 @@ include_once("../insa_db.php");
 $db = dbConnect();
 include_once("scenario_mark.php");
 
+updateScenario($db, "giovfall", $face || $qr || $wait_image_verif, "Fall via cam");
 
 $updateQuery = "UPDATE `bix_state` 
     SET
