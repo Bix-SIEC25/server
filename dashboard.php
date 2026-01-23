@@ -11,9 +11,9 @@ $gx = 0;
 $gy = 0;
 if (sizeof($res) == 1) {
     $scenar_txt = $res[0]["scenario"];
-    if (strlen($res[0]["scenario"]) > 0) {
+    if (strlen($res[0]["last_goto"]) > 0) {
         $goto_exists = true;
-        $splittedgoto = explode("|", $res[0]["scenario"]);
+        $splittedgoto = explode("|", $res[0]["last_goto"]);
         $gx = $splittedgoto[0];
         $gy = $splittedgoto[1];
     }
@@ -180,7 +180,7 @@ if (sizeof($res) == 1) {
         loadScenario(scenario);
         <?php 
         if ($goto_exists)
-            echo "__robotMapDebug.setCrosses([$gx,$gy,\"#ff0000\",\"Fall\"]);"
+            echo "__robotMapDebug.setCrosses([[$gx,$gy,\"#ff0000\",\"Fall\"]]);"
         ?>
         // http://localhost/bix/scenario_set?name=first&s=[{"step":"1"},{"transition":"1->2"},{"step":"2"},{"transition":"2->3"},{"step":"3"},{"transition":"3->4"},{"step":"4"},{"transition":"4->5"},{"step":"5"}]
         // http://localhost/bix/add_mark?m=1
