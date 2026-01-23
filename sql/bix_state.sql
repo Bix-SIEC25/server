@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 19, 2026 at 01:03 PM
+-- Generation Time: Jan 23, 2026 at 01:39 AM
 -- Server version: 11.4.8-MariaDB
 -- PHP Version: 8.4.15
 
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `bix_state` (
+  `scenario_name` tinytext NOT NULL DEFAULT 'noscenario',
   `scenario` text NOT NULL DEFAULT '[{"transition":"waiting for scenario"}]',
   `x` float DEFAULT 0,
   `y` float NOT NULL DEFAULT 0,
@@ -46,8 +47,8 @@ CREATE TABLE `bix_state` (
 -- Dumping data for table `bix_state`
 --
 
-INSERT INTO `bix_state` (`scenario`, `x`, `y`, `dir`, `wait_car`, `qr`, `face`, `dialog`, `fall_ia`, `mov_car`, `wait_image_verif`, `last_step`) VALUES
-('[{\"transition\":\"waiting for scenario\"}]', 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '');
+INSERT INTO `bix_state` (`scenario_name`, `scenario`, `x`, `y`, `dir`, `wait_car`, `qr`, `face`, `dialog`, `fall_ia`, `mov_car`, `wait_image_verif`, `last_step`) VALUES
+('first', '[{\"step\":\"1\",\"state\":\"done\"},{\"transition\":\"1->2\",\"state\":\"done\"},{\"step\":\"2\",\"state\":\"notdone\"},{\"transition\":\"2->3\",\"state\":\"done\"},{\"step\":\"3\",\"state\":\"done\"},{\"transition\":\"3->4\",\"state\":\"done\"},{\"step\":\"4\",\"state\":\"done\"},{\"transition\":\"4->5\",\"state\":\"done\"},{\"step\":\"5\",\"state\":\"done\"}]', 0.38, -3.467, 0.755, 0, 0, 0, 0, 0, 0, 1, '5');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
