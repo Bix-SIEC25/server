@@ -1,16 +1,21 @@
-(function(){
+(function () {
   const config = {
     mapUrl: 'maps/gei_0.png',   // path to map image (adjust if needed)
     fetchIntervalMs: 1000,          // polling interval for /state.php
     // Real-world coordinates for corners (edit these to match your map)
-    topLeft:     { x: -36.57, y:  19.93 },
-    topRight:    { x:  27.26, y:   19.93 },
-    bottomLeft:  { x:  -36.57, y:  -35.01 },
-    bottomRight: { x:  27.26, y:   -35.01 }
+    topLeft: { x: -36.57, y: 19.93 },
+    topRight: { x: 27.26, y: 19.93 },
+    bottomLeft: { x: -36.57, y: -35.01 },
+    bottomRight: { x: 27.26, y: -35.01 }
   };
+
+  config.crosses = [
+    [1.2, -2.3, "#ff0000", "A"],   // [x, y, color, optionalLabel]
+    [1.4, -4.3, "#00ff00", "B"]
+  ];
   // ------------------------------------------------------------------------------------
 
-  const stateKeys = ['wait_car','qr','face','dialog','fall_ia','mov_car','wait_image_verif'];
+  const stateKeys = ['wait_car', 'qr', 'face', 'dialog', 'fall_ia', 'mov_car', 'wait_image_verif'];
 
   // UI skeleton
   const toggle = document.createElement('div');
@@ -38,7 +43,7 @@
         
       </div>
     </div>
-  `; 
+  `;
 
   /*
    * <div id="robot-map-controls">
@@ -70,15 +75,15 @@
   const statesContainer = panel.querySelector('#robot-states');
   function renderStateIndicators(info) {
     statesContainer.innerHTML = '';
-    stateKeys.forEach(k=>{
+    stateKeys.forEach(k => {
       const val = info && (k in info) ? !!Number(info[k]) : false;
       const row = document.createElement('div');
       row.className = 'state-row';
       const label = document.createElement('div');
       label.innerText = k;
-      label.style.flex='1';
+      label.style.flex = '1';
       const dot = document.createElement('div');
-      dot.className = 'ind-dot ' + (val? 'on':'off');
+      dot.className = 'ind-dot ' + (val ? 'on' : 'off');
       row.appendChild(label);
       row.appendChild(dot);
       statesContainer.appendChild(row);
@@ -86,21 +91,75 @@
   }
   renderStateIndicators(null);
 
-  toggle.addEventListener('click', ()=> panel.style.display = 'flex');
-  panel.querySelector('#robot-map-close').addEventListener('click', ()=> panel.style.display = 'none');
-//   panel.querySelector('#center-image').addEventListener('click', ()=>{
-//     if (!imageLoaded) return;
-//     // re-calc drawRect from image and redraw (no change to affine)
-//     drawScene();
-//   });
+  // Helper to draw crosses on the map
+  function renderCrosses() {
+    if (!affine || !imageDrawRect) return;
+    if (!Array.isArray(config.crosses)) return;
+
+    ctx.save();
+    ctx.lineWidth = 2;
+    ctx.font = '12px Arial';
+    ctx.textBaseline = 'top';
+    for (let i = 0; i < config.crosses.length; i++) {
+      const entry = config.crosses[i];
+      if (!entry || entry.length < 3) continue;
+      const wx = Number(entry[0]);
+      const wy = Number(entry[1]);
+      const color = entry[2] || '#f00';
+      const label = entry.length >= 4 ? ('' + entry[3]) : null;
+
+      // convert to pixel coords
+      const p = worldToPixel(wx, wy);
+      if (!isFinite(p.x) || !isFinite(p.y)) continue;
+
+      // draw cross (10 px arm length)
+      const arm = 8;
+      ctx.strokeStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(p.x - arm, p.y - arm);
+      ctx.lineTo(p.x + arm, p.y + arm);
+      ctx.moveTo(p.x - arm, p.y + arm);
+      ctx.lineTo(p.x + arm, p.y - arm);
+      ctx.stroke();
+
+      // small filled center circle
+      ctx.beginPath();
+      ctx.fillStyle = '#fff';
+      ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // optional label to the right
+      if (label) {
+        const pad = 6;
+        ctx.fillStyle = 'rgba(255,255,255,0.85)';
+        const textW = ctx.measureText(label).width;
+        ctx.fillRect(p.x + pad, p.y - 2, textW + 6, 16);
+        ctx.fillStyle = '#000';
+        ctx.fillText(label, p.x + pad + 3, p.y);
+      }
+    }
+    ctx.restore();
+  }
+
+
+  toggle.addEventListener('click', () => panel.style.display = 'flex');
+  panel.querySelector('#robot-map-close').addEventListener('click', () => panel.style.display = 'none');
+  //   panel.querySelector('#center-image').addEventListener('click', ()=>{
+  //     if (!imageLoaded) return;
+  //     // re-calc drawRect from image and redraw (no change to affine)
+  //     drawScene();
+  //   });
 
   // draw map and robot
   function drawScene() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (!imageLoaded) {
       // placeholder
       ctx.fillStyle = '#ddd';
-      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#666';
       ctx.font = '14px Arial';
       ctx.fillText('Loading map image...', 20, 30);
@@ -110,10 +169,10 @@
     // fit image to canvas preserving aspect ratio and draw centered
     const iw = mapImage.width, ih = mapImage.height;
     const cw = canvas.width, ch = canvas.height;
-    const scale = Math.min(cw/iw, ch/ih);
+    const scale = Math.min(cw / iw, ch / ih);
     const drawW = iw * scale, drawH = ih * scale;
-    const offsetX = (cw - drawW)/2;
-    const offsetY = (ch - drawH)/2;
+    const offsetX = (cw - drawW) / 2;
+    const offsetY = (ch - drawH) / 2;
     imageDrawRect = { x: offsetX, y: offsetY, w: drawW, h: drawH };
     ctx.drawImage(mapImage, offsetX, offsetY, drawW, drawH);
 
@@ -124,12 +183,13 @@
 
     // draw robot if we have state
     if (latestState && affine) {
+      renderCrosses();
       const p = worldToPixel(latestState.x, latestState.y);
 
       const ux = Math.cos(latestState.dir);
       const uy = Math.sin(latestState.dir);
       const smallStep = 0.25; // meters
-      const p2 = worldToPixel(latestState.x + ux*smallStep, latestState.y + uy*smallStep);
+      const p2 = worldToPixel(latestState.x + ux * smallStep, latestState.y + uy * smallStep);
       const ang = Math.atan2(p2.y - p.y, p2.x - p.x);
 
       // point
@@ -140,17 +200,17 @@
       ctx.fillStyle = '#ff5722';
       ctx.strokeStyle = '#800';
       ctx.lineWidth = 2;
-      ctx.arc(0,0,6,0,Math.PI*2);
+      ctx.arc(0, 0, 6, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
 
       // direction arrow
       ctx.beginPath();
-      ctx.moveTo(7,0);
-      ctx.lineTo(18,0);
-      ctx.lineTo(14,-6);
-      ctx.moveTo(18,0);
-      ctx.lineTo(14,6);
+      ctx.moveTo(7, 0);
+      ctx.lineTo(18, 0);
+      ctx.lineTo(14, -6);
+      ctx.moveTo(18, 0);
+      ctx.lineTo(14, 6);
       ctx.strokeStyle = '#202020';
       ctx.lineWidth = 2;
       ctx.stroke();
@@ -159,7 +219,7 @@
 
       // overlay textual box
       ctx.fillStyle = 'rgba(255,255,255,0.85)';
-      ctx.fillRect(6,6,260,34);
+      ctx.fillRect(6, 6, 260, 34);
       ctx.fillStyle = '#000';
       ctx.font = '12px Arial';
       ctx.fillText(`x: ${latestState.x.toFixed(3)}  y: ${latestState.y.toFixed(3)}  dir: ${latestState.dir.toFixed(3)} rad`, 10, 26);
@@ -178,12 +238,12 @@
     const px_br = { x: imageDrawRect.x + imageDrawRect.w, y: imageDrawRect.y + imageDrawRect.h };
 
     const worldPts = [
-      { x: config.topLeft.x,  y: config.topLeft.y },
+      { x: config.topLeft.x, y: config.topLeft.y },
       { x: config.topRight.x, y: config.topRight.y },
-      { x: config.bottomLeft.x,y: config.bottomLeft.y },
-      { x: config.bottomRight.x,y: config.bottomRight.y }
+      { x: config.bottomLeft.x, y: config.bottomLeft.y },
+      { x: config.bottomRight.x, y: config.bottomRight.y }
     ];
-    const pixelPts = [ px_tl, px_tr, px_bl, px_br ];
+    const pixelPts = [px_tl, px_tr, px_bl, px_br];
 
     // Build normal least-squares system to solve for 6 unknowns [a,b,c,d,e,f]
     // For each correspondence: px = a*wx + b*wy + c ; py = d*wx + e*wy + f
@@ -192,10 +252,10 @@
 
     const n = worldPts.length;
     // Build normal matrix (6x6) and rhs (6)
-    const ATA = new Array(6).fill(0).map(()=> new Array(6).fill(0));
+    const ATA = new Array(6).fill(0).map(() => new Array(6).fill(0));
     const ATb = new Array(6).fill(0);
 
-    for (let i=0;i<n;i++) {
+    for (let i = 0; i < n; i++) {
       const wx = worldPts[i].x;
       const wy = worldPts[i].y;
       const px = pixelPts[i].x;
@@ -204,18 +264,18 @@
       // rows for px equation: [wx, wy, 1, 0, 0, 0] * U = px
       const rowPx = [wx, wy, 1, 0, 0, 0];
       // rows for py equation: [0,0,0, wx, wy, 1] * U = py
-      const rowPy = [0,0,0, wx, wy, 1];
+      const rowPy = [0, 0, 0, wx, wy, 1];
 
       // accumulate ATA and ATb for px row
-      for (let r=0;r<6;r++){
-        for (let c=0;c<6;c++){
+      for (let r = 0; r < 6; r++) {
+        for (let c = 0; c < 6; c++) {
           ATA[r][c] += rowPx[r] * rowPx[c];
         }
         ATb[r] += rowPx[r] * px;
       }
       // accumulate ATA and ATb for py row
-      for (let r=0;r<6;r++){
-        for (let c=0;c<6;c++){
+      for (let r = 0; r < 6; r++) {
+        for (let c = 0; c < 6; c++) {
           ATA[r][c] += rowPy[r] * rowPy[c];
         }
         ATb[r] += rowPy[r] * py;
@@ -225,7 +285,7 @@
     // solve ATA * U = ATb for U using Gaussian elimination
     const U = solveLinearSystem(ATA, ATb);
     if (!U) {
-    //   console.error('Affine solve failed; check corner coordinates');
+      //   console.error('Affine solve failed; check corner coordinates');
       affine = null;
       affineInverse = null;
       return;
@@ -245,8 +305,8 @@
   // convert pixel to world using inverse affine (if available)
   function pixelToWorld(px, py) {
     if (!affineInverse) return { x: 0, y: 0 };
-    const wx = affineInverse[0]*px + affineInverse[1]*py + affineInverse[2];
-    const wy = affineInverse[3]*px + affineInverse[4]*py + affineInverse[5];
+    const wx = affineInverse[0] * px + affineInverse[1] * py + affineInverse[2];
+    const wy = affineInverse[3] * px + affineInverse[4] * py + affineInverse[5];
     return { x: wx, y: wy };
   }
 
@@ -257,14 +317,14 @@
     const n = Aorig.length;
     // deep copy
     const A = new Array(n);
-    for (let i=0;i<n;i++) A[i] = Aorig[i].slice();
+    for (let i = 0; i < n; i++) A[i] = Aorig[i].slice();
     const b = borig.slice();
 
-    for (let i=0;i<n;i++) {
+    for (let i = 0; i < n; i++) {
       // pivot
       let maxRow = i;
       let maxVal = Math.abs(A[i][i]);
-      for (let r=i+1; r<n; r++) {
+      for (let r = i + 1; r < n; r++) {
         if (Math.abs(A[r][i]) > maxVal) { maxVal = Math.abs(A[r][i]); maxRow = r; }
       }
       if (maxVal < 1e-12) return null; // singular
@@ -275,12 +335,12 @@
       }
       // normalize and eliminate
       const pivot = A[i][i];
-      for (let c=i; c<n; c++) A[i][c] /= pivot;
+      for (let c = i; c < n; c++) A[i][c] /= pivot;
       b[i] /= pivot;
-      for (let r=0; r<n; r++) {
+      for (let r = 0; r < n; r++) {
         if (r === i) continue;
         const factor = A[r][i];
-        for (let c=i; c<n; c++) A[r][c] -= factor * A[i][c];
+        for (let c = i; c < n; c++) A[r][c] -= factor * A[i][c];
         b[r] -= factor * b[i];
       }
     }
@@ -294,14 +354,14 @@
   function invertAffineMatrix(aff) {
     const a = aff.a, b = aff.b, c = aff.c;
     const d = aff.d, e = aff.e, f = aff.f;
-    const det = a*e - b*d;
+    const det = a * e - b * d;
     if (Math.abs(det) < 1e-12) return null;
-    const inv00 =  e / det;
+    const inv00 = e / det;
     const inv01 = -b / det;
-    const inv02 = (b*f - c*e) / det;
+    const inv02 = (b * f - c * e) / det;
     const inv10 = -d / det;
-    const inv11 =  a / det;
-    const inv12 = (c*d - a*f) / det;
+    const inv11 = a / det;
+    const inv12 = (c * d - a * f) / det;
     return [inv00, inv01, inv02, inv10, inv11, inv12];
   }
   // --------------------------------------------------------------------
@@ -331,7 +391,7 @@
   }
 
   // image load handling
-  mapImage.onload = function() {
+  mapImage.onload = function () {
     imageLoaded = true;
     // draw image and compute affine
     drawScene();
@@ -343,21 +403,31 @@
       pollTimer = setInterval(fetchState, config.fetchIntervalMs);
     }
   };
-  mapImage.onerror = function() {
+  mapImage.onerror = function () {
     imageLoaded = false;
     drawScene();
   };
 
   // initial draw
   drawScene();
-//   console.info('Robot Map Panel loaded. Edit topLeft/topRight/bottomLeft/bottomRight in the script to match your map.');
+  //   console.info('Robot Map Panel loaded. Edit topLeft/topRight/bottomLeft/bottomRight in the script to match your map.');
 
   // expose a small debug method on window for convenience (optional)
   window.__robotMapDebug = {
     recompute: () => { affine = null; affineInverse = null; drawScene(); computeAffineFromCorners(); drawScene(); /*console.info('Recomputed affine:', affine);*/ },
-    worldToPixel: (wx,wy)=> worldToPixel(wx,wy),
-    pixelToWorld: (px,py)=> pixelToWorld(px,py),
+    worldToPixel: (wx, wy) => worldToPixel(wx, wy),
+    pixelToWorld: (px, py) => pixelToWorld(px, py),
     config
   };
+
+  function setCrosses(newArray) {
+    // expects array of [x,y,color,optionalLabel]
+    if (!Array.isArray(newArray)) throw new Error('setCrosses expects an array');
+    config.crosses = newArray.map(item => [Number(item[0]), Number(item[1]), item[2] || '#f00', item[3] || null]);
+    drawScene();
+  }
+
+  window.__robotMapDebug = window.__robotMapDebug || {};
+  window.__robotMapDebug.setCrosses = setCrosses;
 
 })();

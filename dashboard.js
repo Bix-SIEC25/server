@@ -123,7 +123,11 @@ const connect = function () {
 
                 //     }
                 // }
-            }
+            } else if (data.startsWith("goto")) {
+                let dest = data.substr(4).split("|")
+                __robotMapDebug.setCrosses([[parseFloat(dest[0]), parseFloat(dest[1]), "#ff0000", "Fall"]]);
+            } else if (data.startsWith("stopgoto") || data.startsWith("endgoto"))
+                __robotMapDebug.setCrosses([]);
         }
 
         socket.onclose = (e) => {
