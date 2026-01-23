@@ -5,6 +5,10 @@ if (!isset($_REQUEST["m"]) && !isset($_REQUEST["s"], $_REQUEST["name"])) {
     exit;
 }
 
+// https://bix.ovh/scenario_set?name=first&s=[{%22step%22:%221%22},{%22transition%22:%221-%3E2%22},{%22step%22:%222%22},{%22transition%22:%222-%3E3%22},{%22step%22:%223%22},{%22transition%22:%223-%3E4%22},{%22step%22:%224%22},{%22transition%22:%224-%3E5%22},{%22step%22:%225%22}]
+// https://bix.ovh/scenario_set?name=giovfall&s=[{"step":"Started"},{"transition":"patrolling"},{"step":"Fall via cam"},{"transition":"recognizing face"},{"step":"Giovanna detected"},{"transition":"Waiting confirmation"},{"step":"Confirmed"},{"transition":"Asking questions"},{"step":"No emergency"}]
+// https://bix.ovh/scenario_set?name=hugofake&s=[{"step":"Started"},{"transition":"patrolling"},{"step":"Fake necklace fall"},{"transition":"going to fall"},{"step":"Arrived"},{"transition":"Detecting QRCode"},{"step":"Hugo detected"},{"transition":"Waiting confirmation"},{"step":"Denied"}]
+
 // set scenario case
 if (isset($_REQUEST["s"], $_REQUEST["name"])) {
 

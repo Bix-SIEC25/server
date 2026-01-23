@@ -22,6 +22,8 @@ $insert->execute([
     'msg' => $msg
 ]);
 
+// updateScenario($db, "giovfall", $msg == "confirmed" && $sender == "state", "Started");
+
 if ($sender == "FaceRecognitionNode" || $sender == "QRNode") {
     copy("uploads/last.jpg", "uploads/visu_fall.jpg");
     @file_get_contents(
@@ -75,6 +77,8 @@ if ($sender == "goto" && str_contains($msg, "Arrival flag")) {
         'content' => "bix/log_" . $sender . ":" . $type . "|" . $msg
     ]])
 );
+
+updateScenario($db, "", $msg == "patrolling" && $sender == "state", "Started");
 
 header("Location: ./ok");
 exit;

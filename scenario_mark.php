@@ -104,12 +104,3 @@ function markStep(array &$scenario, string $step): void
         }
     }
 }
-
-// // // Example usage:
-// // echo "Before:\n";
-// print_r($scenario);
-
-// markStep($scenario, "1");  // Mark step "1" as done (or toggle path logic per code)
-
-// echo "After markStep('1'):\n";
-// print_r($scenario);

@@ -57,14 +57,16 @@
   margin-bottom: 2px;
 }
 .sp-step-label {
-  font-size: 12px;
+  font-size: 10px;
   line-height: 1.1;
   font-weight: 600;
   color: #1b2430;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
+  text-wrap: wrap;
   max-width: 64px;
+  max-height: 100%;
 }
 
 /* Transition bar */
