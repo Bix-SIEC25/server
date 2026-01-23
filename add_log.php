@@ -83,7 +83,7 @@ if ($sender == "goto" && str_contains($msg, "Arrival flag")) {
 updateScenario($db, "", $msg == "patrolling" && $sender == "state", "Started");
 updateScenario($db, "hugofake", $msg == "noemergency" && $sender == "state", "No emergency");
 // updateScenario($db, "", $msg == "emergency" && $sender == "state", "Started"); 
-updateScenario($db, "hugofake", $socket == "noemergency" && $msg == "Image verification: true", "No emergency");
+updateScenario($db, "hugofake", $sender == "socket" && $msg == "Image verification: true", "No emergency");
 
 
 header("Location: ./ok");
