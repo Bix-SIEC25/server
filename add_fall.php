@@ -108,5 +108,7 @@ $updateStmt->execute([
     "g" => $positions[(int)$_REQUEST["zone"] - 1][$sens][0] . "|" . $positions[(int)$_REQUEST["zone"] - 1][$sens][1] . "|" . $dir
 ]);
 
+updateScenario($db, "hugofake", true, "Fake necklace fall");
+
 header("Location: ./ok");
 exit;
