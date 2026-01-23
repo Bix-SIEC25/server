@@ -35,6 +35,9 @@ if ($sender == "FaceRecognitionNode" || $sender == "QRNode") {
             'content' => "bix/admin:visu_fall|$msg"
         ]])
     );
+    updateScenario($db, "giovfall", $msg == "Giovanna", "Giovanna detected");
+    updateScenario($db, "hugofake", $msg == "Hugo", "Hugo detected");
+
 }
 
 if ($sender == "goto" && str_contains($msg, "Arrival flag")) {
@@ -81,9 +84,10 @@ if ($sender == "goto" && str_contains($msg, "Arrival flag")) {
 );
 
 updateScenario($db, "", $msg == "patrolling" && $sender == "state", "Started");
-updateScenario($db, "hugofake", $msg == "noemergency" && $sender == "state", "No emergency");
+updateScenario($db, "giovfall", $msg == "noemergency" && $sender == "state", "No emergency");
 // updateScenario($db, "", $msg == "emergency" && $sender == "state", "Started"); 
-updateScenario($db, "hugofake", $sender == "socket" && $msg == "Image verification: true", "No emergency");
+updateScenario($db, "hugofake", $sender == "socket" && $msg == "Image verification: false", "Denied");
+updateScenario($db, "giovfall", $sender == "socket" && $msg == "Image verification: true", "Confirmed");
 
 
 header("Location: ./ok");
