@@ -23,7 +23,7 @@ $insert->execute([
 ]);
 
 if ($sender == "FaceRecognitionNode" || $sender == "QRNode") {
-    copy("uploads/last.jpg","uploads/visu_fall.jpg");
+    copy("uploads/last.jpg", "uploads/visu_fall.jpg");
     @file_get_contents(
         "http://127.0.0.1:6442/push",
         false,
@@ -45,6 +45,15 @@ if ($sender == "goto" && str_contains($msg, "Arrival flag")) {
             'content' => "bix/admin:endgoto"
         ]])
     );
+
+    $updateQuery = "UPDATE `bix_state` 
+    SET
+        `last_goto`=:g
+    WHERE 1";
+    $updateStmt = $db->prepare($updateQuery);
+    $updateStmt->execute([
+        "g" => ""
+    ]);
 }
 
 @file_get_contents(

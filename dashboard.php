@@ -2,11 +2,22 @@
 
 include_once("../insa_db.php");
 $db = dbConnect();
-$stmt = $db->prepare("SELECT scenario, scenario_name FROM bix_state");
+$stmt = $db->prepare("SELECT scenario, scenario_name, last_goto FROM bix_state");
 $stmt->execute([]);
 $res = $stmt->fetchAll();
 $scenar_txt = '[{"transition":"waiting for scenario", "icon":"🕑"}]';
-if (sizeof($res) == 1) $scenar_txt = $res[0]["scenario"];
+$goto_exists = false;
+$gx = 0;
+$gy = 0;
+if (sizeof($res) == 1) {
+    $scenar_txt = $res[0]["scenario"];
+    if (strlen($res[0]["scenario"]) > 0) {
+        $goto_exists = true;
+        $splittedgoto = explode("|", $res[0]["scenario"]);
+        $gx = $splittedgoto[0];
+        $gy = $splittedgoto[1];
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -167,7 +178,10 @@ if (sizeof($res) == 1) $scenar_txt = $res[0]["scenario"];
         scenario = '<?php echo $scenar_txt ?>';
         // loadScenario(sample);
         loadScenario(scenario);
-
+        <?php 
+        if ($goto_exists)
+            echo "__robotMapDebug.setCrosses([$gx,$gy,\"#ff0000\",\"Fall\"]);"
+        ?>
         // http://localhost/bix/scenario_set?name=first&s=[{"step":"1"},{"transition":"1->2"},{"step":"2"},{"transition":"2->3"},{"step":"3"},{"transition":"3->4"},{"step":"4"},{"transition":"4->5"},{"step":"5"}]
         // http://localhost/bix/add_mark?m=1
         // setScenario:[{"step":"1"},{"transition":"1->2"},{"step":"2"},{"transition":"2->3"},{"step":"3"},{"transition":"3->4"},{"step":"4"},{"transition":"4->5"},{"step":"5"}]

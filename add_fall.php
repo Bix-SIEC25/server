@@ -95,9 +95,18 @@ if (sizeof($res) == 1) {
         'method' => 'POST',
         'header' => "Content-Type: text/plain\r\n",
         //'content' => "bix/goto:goto7.65|-1.15"
-        'content' => "bix/goto:goto" . $positions[(int)$_REQUEST["zone"] - 1][0][0] . "|" . $positions[(int)$_REQUEST["zone"] - 1][0][1] . "|" . $dir
+        'content' => "bix/goto:goto" . $positions[(int)$_REQUEST["zone"] - 1][$sens][0] . "|" . $positions[(int)$_REQUEST["zone"] - 1][$sens][1] . "|" . $dir
     ]])
 );
+
+$updateQuery = "UPDATE `bix_state` 
+    SET
+        `last_goto`=:g
+    WHERE 1";
+$updateStmt = $db->prepare($updateQuery);
+$updateStmt->execute([
+    "g" => $positions[(int)$_REQUEST["zone"] - 1][$sens][0] . "|" . $positions[(int)$_REQUEST["zone"] - 1][$sens][1] . "|" . $dir
+]);
 
 header("Location: ./ok");
 exit;
