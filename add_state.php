@@ -48,6 +48,7 @@ $db = dbConnect();
 include_once("scenario_mark.php");
 
 updateScenario($db, "giovfall", $face || $qr || $wait_image_verif, "Fall via cam");
+updateScenario($db, "", $mov_car, "Started");
 
 $updateQuery = "UPDATE `bix_state` 
     SET
