@@ -1,28 +1,10 @@
 <?php
-// $scenarios = array(
-//     "giovfall" => array(
-//         array("step" => "Started"),
-//         array("transition" => "patrolling"),
-//         array("step" => "Fall via cam"),
-//         array("transition" => "recognizing face"),
-//         array("step" => "Giovanna detected"),
-//         array("transition" => "Waiting confirmation"),
-//         array("step" => "Confirmed"),
-//         array("transition" => "Asking questions"),
-//         array("step" => "No emergency"),
-//     ),
-//     "hugofake" => array(
-//         array("step" => "Started"),
-//         array("transition" => "patrolling"),
-//         array("step" => "Fake necklace fall"),
-//         array("transition" => "going to fall"),
-//         array("step" => "Arrived"),
-//         array("transition" => "Detecting QRCode"),
-//         array("step" => "Hugo detected"),
-//         array("transition" => "Waiting confirmation"),
-//         array("step" => "Denied"),
-//     ),
-// );
+session_start();
+
+if (!isset($_SESSION["connected"]) || $_SESSION["connected"] != true) {
+    http_response_code(404);
+    die();
+}
 
 $scenarios = [
     "giovfall" => [
@@ -190,7 +172,6 @@ $scenarios = [
     </aside>
 
     <script>
-        // scenarios object passed from PHP
         const scenarios = <?php echo json_encode($scenarios, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
 
         const main = document.getElementById('scenarios');
@@ -203,7 +184,6 @@ $scenarios = [
             node.innerHTML = `<div><strong>${escapeHtml(entry.label)}</strong></div><div class="meta">${now.toLocaleString()}</div><div class="meta">${escapeHtml(entry.note||'')}</div>`; // ${escapeHtml(entry.url)} - 
             historyList.prepend(node);
 
-            // persist to localStorage (keep last 200)
             try {
                 const h = JSON.parse(localStorage.getItem('scenario_history') || '[]');
                 h.unshift({
@@ -226,9 +206,7 @@ $scenarios = [
                     node.innerHTML = `<div><strong>${escapeHtml(item.label)}</strong></div><div class="meta">${new Date(item.t).toLocaleString()}</div><div class="meta">${escapeHtml(item.note||'')}</div>`; // ${substr(escapeHtml(item.url), 0, 20)} 
                     historyList.prepend(node);
                 });
-            } catch (e) {
-                /* ignore */
-            }
+            } catch (e) {}
         }
 
         document.getElementById('clearHistory').addEventListener('click', () => {
@@ -318,9 +296,7 @@ $scenarios = [
             setBtn.addEventListener('click', () => {
                 const s = steps;
                 const url = 'scenario_set?name=' + encodeURIComponent(name) + '&s=' + encodeURIComponent(JSON.stringify(s));
-                sendRequest(url, `scenario_set:${name}`).then(() => {
-                    /* no-op */
-                });
+                sendRequest(url, `scenario_set:${name}`).then(() => {});
             });
             card.appendChild(setBtn);
 
@@ -335,9 +311,7 @@ $scenarios = [
                     btn.setAttribute('aria-label', `Send mark ${obj.step}`);
                     btn.addEventListener('click', () => {
                         const url = 'add_mark?m=' + encodeURIComponent(obj.step);
-                        sendRequest(url, `add_mark:${obj.step}`).then(() => {
-                            /* no-op */
-                        });
+                        sendRequest(url, `add_mark:${obj.step}`).then(() => {});
                     });
                     stepsWrap.appendChild(btn);
                 }
