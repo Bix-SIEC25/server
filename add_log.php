@@ -83,6 +83,17 @@ if ($sender == "goto" && str_contains($msg, "Arrival flag")) {
     ]])
 );
 
+if ($msg == "emergency" && $sender == "state")
+@file_get_contents(
+    "http://127.0.0.1:6442/push",
+    false,
+    stream_context_create(['http' => [
+        'method' => 'POST',
+        'header' => "Content-Type: text/plain\r\n",
+        'content' => "bix/admin:ALERT"
+    ]])
+);
+
 updateScenario($db, "", $msg == "patrolling" && $sender == "state", "Started");
 updateScenario($db, "giovfall", $msg == "noemergency" && $sender == "state", "No emergency");
 // updateScenario($db, "", $msg == "emergency" && $sender == "state", "Started"); 

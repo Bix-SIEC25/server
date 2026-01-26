@@ -15,10 +15,13 @@ $known_messages = [
     "new log",
     "visu_fall|",
     "newimg",
+    "endgoto",
+    "ALERT",
     "stopgoto",
     "tts>",
     "goto",
     // "goto7.65|-1.15",
+
     "8.58|-0.3|0.696",
     "horn",
     "new vitals",

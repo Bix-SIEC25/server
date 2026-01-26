@@ -128,6 +128,12 @@ const connect = function () {
                 __robotMapDebug.setCrosses([[parseFloat(dest[0]), parseFloat(dest[1]), "#ff0000", "Fall"]]);
             } else if (data.startsWith("stopgoto") || data.startsWith("endgoto"))
                 __robotMapDebug.setCrosses([]);
+            else if (data.startsWith("ALERT")) {
+                document.body.classList.add("alert");
+                setTimeout(() => {
+                    document.body.classList.remove("alert");
+                }, 5000);
+            }
         }
 
         socket.onclose = (e) => {

@@ -260,7 +260,7 @@ nav a.cta {
 .card-resident {
     margin-top: 12px;
     padding-top: 12px;
-    border-top: 1px dashed rgba(12,40,44,0.06);
+    border-top: 1px dashed rgba(12, 40, 44, 0.06);
 }
 
 .card h2 {
@@ -308,7 +308,7 @@ tr:hover {
 }
 
 table tr:hover {
-    background: rgba(47,122,122,0.04);
+    background: rgba(47, 122, 122, 0.04);
 }
 
 /* Prevent tables from breaking layout */
@@ -478,7 +478,7 @@ td:last-child {
 }
 
 .btn:disabled {
-    cursor:not-allowed;
+    cursor: not-allowed;
     filter: brightness(0.9) saturate(0.5) blur(1px);
 }
 
@@ -701,7 +701,43 @@ td:last-child {
     box-shadow: none;
 }
 
+.alert {
+    animation: alertBG linear infinite 1s, small_shake linear 1s;
+}
+
 /* Animations */
+@keyframes alertBG {
+    50% {
+        background: red;
+    }
+}
+
+@keyframes small_shake {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    10% {
+        transform: rotate(-3deg);
+    }
+
+    25% {
+        transform: rotate(2.9deg);
+    }
+
+    45% {
+        transform: rotate(-1deg);
+    }
+
+    70% {
+        transform: rotate(0.5deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
 @keyframes floatA {
     0% {
         transform: translateY(0) rotate(0deg);
@@ -765,18 +801,18 @@ footer {
 }
 
 @keyframes heartbeat {
-  10% {
-    box-shadow: 0 0 15px var(--accent-300);
-    border: solid 2px var(--accent-300)
-    /* transform: scale(1.05); */
-  }
+    10% {
+        box-shadow: 0 0 15px var(--accent-300);
+        border: solid 2px var(--accent-300)
+            /* transform: scale(1.05); */
+    }
 }
 
 @keyframes heartbeat-img {
-  10% {
-    /* box-shadow: 0 0 10px var(--accent-300); */
-    transform: scale(1.02);
-  }
+    10% {
+        /* box-shadow: 0 0 10px var(--accent-300); */
+        transform: scale(1.02);
+    }
 }
 
 #connected_info {
