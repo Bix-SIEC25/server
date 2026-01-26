@@ -4,7 +4,7 @@
             <th>Resident</th>
             <th>SpO2</th>
             <th>Heart Rate</th>
-            <th>Board Temperature</th>
+            <!-- <th>Board Temperature</th> -->
             <th>Timestamp</th>
         </tr>
     </thead>
@@ -65,7 +65,7 @@ ORDER BY v.timestamp DESC
                 <td><strong><?php echo $vitals['name'] ?></strong><span class="resident-badge"><? echo $vitals['device_id']?></span></td>
                 <td><span class="badge <?php echo $spo2Status ?>"><?php echo $vitals['spo2'] ?>%</span></td>
                 <td><span class="badge <?php echo $hrStatus ?>"><?php echo $vitals['heart_rate'] ?> BPM</span></td>
-                <td><?php echo ($vitals['temperature'] ? $vitals['temperature'] . '°C' : 'N/A') ?></td>
+                <!-- <td><?php echo ($vitals['temperature'] ? $vitals['temperature'] . '°C' : 'N/A') ?></td> -->
                 <td><?php echo $vitals['timestamp'] ?></td>
             </tr>
 
