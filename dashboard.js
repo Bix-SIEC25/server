@@ -65,7 +65,7 @@ let scenario = [];
 
 const connect = function () {
     return new Promise((resolve, reject) => {
-        const socketUrl = `wss://magictintin.fr/ws`;
+        const socketUrl = `wss://fallback.magictintin.fr/ws`;
         socket = new WebSocket(socketUrl);
 
         socket.onopen = (e) => {
