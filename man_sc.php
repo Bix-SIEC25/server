@@ -34,7 +34,8 @@ $scenarios = [
         ["transition" => "Waiting confirmation"],
         ["step" => "Confirmed"],
         ["transition" => "Asking questions"],
-        ["step" => "No emergency"],
+        ["step" => "Emergency"],
+        //["step" => "No emergency"],
     ],
     "hugofake" => [
         ["step" => "Started"],

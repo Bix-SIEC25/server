@@ -96,6 +96,7 @@ if ($msg == "emergency" && $sender == "state")
 
 updateScenario($db, "", $msg == "patrolling" && $sender == "state", "Started");
 updateScenario($db, "giovfall", $msg == "noemergency" && $sender == "state", "No emergency");
+updateScenario($db, "giovfall", $msg == "emergency" && $sender == "state", "Emergency");
 // updateScenario($db, "", $msg == "emergency" && $sender == "state", "Started"); 
 updateScenario($db, "hugofake", $sender == "socket" && $msg == "Image verification: false", "Denied");
 updateScenario($db, "giovfall", $sender == "socket" && $msg == "Image verification: true", "Confirmed");

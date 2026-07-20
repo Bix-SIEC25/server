@@ -103,9 +103,10 @@ const connect = function () {
                 loadResidentCard("");
                 document.getElementById('fall-visual-content').innerHTML = '<div class="no-data">No fall to display</div>';
             } else if (data.startsWith("setScenario:")) {
-                parts = data.split(":");
+                //console.log("oskour");
+		parts = data.split(":");
                 parts.shift();
-                if (parts.length == 0) return;
+                if (parts.length == 0) return console.log("oups ?");
                 scenario = JSON.parse(parts.join(":").trim());
                 
                 loadScenario(scenario);
@@ -132,7 +133,7 @@ const connect = function () {
                 document.body.classList.add("alert");
                 setTimeout(() => {
                     document.body.classList.remove("alert");
-                }, 5000);
+                }, 15000);
             }
         }
 
